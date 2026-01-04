@@ -14,9 +14,9 @@ export default function Home() {
         <img src={wordcloud} alt={t("home.imageAlt")} className="w-2xs" />
         <section>
           <h1 className="text-[clamp(1rem,2vw,1.875rem)] font-bold text-center">{t('home.headline')}</h1>
-          <p className="mt-4 text-justify text-gray-600">{t('home.intro1')} {t('home.intro2')}</p>
+          <p className="mt-4 text-justify text-ink-light">{t('home.intro1')} {t('home.intro2')}</p>
         </section>
       </div>
-    </div>)
-  ;
+    </div>
+  );
 }

@@ -9,6 +9,8 @@ export default function PublicLayout() {
             <main className="w-8/9 mx-auto">
                 <Outlet />
             </main>
+
+            <footer></footer>
         </>
     );
 }

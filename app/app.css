@@ -1,12 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
   --color-primary: theme("colors.sky.600");
   --color-ink: theme("colors.stone.800");
+  --color-ink-light: theme("colors.stone.500");
   --color-canvas: theme("colors.neutral.100");
   --color-surface: theme("colors.zinc.50");
+  --color-word-masculine: theme("colors.blue.400");
+  --color-word-feminine: theme("colors.pink.400");
+  --color-word-neutral: theme("colors.green.400");
+  --color-word-action: theme("colors.red.400");
 }
 
 html,
