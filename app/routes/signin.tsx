@@ -3,7 +3,7 @@ import type { Route } from "./+types/signin";
 import { useTranslation } from "react-i18next";
 import i18n from "~/i18n";
 import supabase from "~/services/supabase";
-import SignInForm from "~/components/SignInForm";
+import SignInForm from "~/shared/components/SignInForm";
 
 export async function clientLoader() {
     const { data: { session }, error } = await supabase.auth.getSession();

@@ -5,6 +5,7 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
   --color-primary: theme("colors.sky.600");
+  --color-secondary: theme("colors.slate.500");
   --color-ink: theme("colors.stone.800");
   --color-ink-light: theme("colors.stone.500");
   --color-canvas: theme("colors.neutral.100");

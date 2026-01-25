@@ -1,6 +1,6 @@
 import GrammarInfo from "./GrammarInfo";
-import { getWordStyle } from "~/utils/card";
-import type { Grammar } from "~/utils/card";
+import { getWordStyle } from "~/features/learning/utils/card";
+import type { Grammar } from "~/features/learning/utils/card";
 
 type CardHeaderProps = {
     grammar: Grammar;

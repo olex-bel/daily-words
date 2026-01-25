@@ -1,20 +1,20 @@
 import { useState } from "react";
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
-import type { WordData } from "~/utils/card";
+import type { WordEntry } from "../services/dailywords";
 
 type FlashcardProps = {
-    data: WordData;
+    entry: WordEntry;
 }
 
-export default function Flashcard({ data }: FlashcardProps) {
+export default function Flashcard({ entry }: FlashcardProps) {
     const [isFlipped, setIsFlipped] = useState(false);
 
     return (
         <article className={`w-full max-w-md min-h-[280px] md:min-h-[320px] perspective-distant`}>
             <div className={`rounded-md relative bg-surface transform-3d transition-transform duration-700 w-full h-full ${isFlipped ? 'rotate-x-180' : ''}`}>
-                <CardFront data={data} onShowTranslation={() => setIsFlipped(true)} />
-                <CardBack data={data} />
+                <CardFront entry={entry} onShowTranslation={() => setIsFlipped(true)} />
+                <CardBack entry={entry} />
             </div>
         </article>
     );

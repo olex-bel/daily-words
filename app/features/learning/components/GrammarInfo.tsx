@@ -1,4 +1,4 @@
-import type { Grammar } from "~/utils/card";
+import type { Grammar } from "~/features/learning/utils/card";
 
 type GrammarInfoProps = {
     grammar: Grammar;

@@ -1,24 +1,24 @@
 import CardHeader from "./CardHeader";
 import { useTranslation } from "react-i18next";
-import { getWordStyle } from "~/utils/card";
-import type { WordData } from "~/utils/card";
+import { getWordStyle } from "~/features/learning/utils/card";
+import type { WordEntry } from "../services/dailywords";
 
 
 type CardFrontProps = {
-    data: WordData;
+    entry: WordEntry;
     onShowTranslation?: () => void;
 }
 
-export default function CardFront({ data, onShowTranslation }: CardFrontProps) {
+export default function CardFront({ entry, onShowTranslation }: CardFrontProps) {
     const { t } = useTranslation();
-    const { word, grammar, example } = data;
+    const { content, grammar, example } = entry;
     const style = getWordStyle(grammar);
 
     return (
-        <div className={`flex flex-col backface-hidden p-4 rotate-x-0 shadow-md ${style.shadow}`}>
+        <div className={`h-full flex flex-col backface-hidden p-4 rotate-x-0 shadow-md ${style.shadow}`}>
             <CardHeader grammar={grammar} />
             <div className="uppercase text-4xl md:text-5xl font-extrabold text-ink text-center">
-                {word}
+                {content}
             </div>
             <div className="flex-grow flex justify-center items-center">
                 <p className="font-serif text-lg md:text-xl italic text-ink-light leading-relaxed">

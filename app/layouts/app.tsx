@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Outlet, redirect, useRevalidator } from "react-router"
 import type { LoaderFunctionArgs } from "react-router";
 import supabase from "~/services/supabase"
+import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
 
 export async function clientLoader({ request}: LoaderFunctionArgs) {
     const { data: { session }, error } = await supabase.auth.getSession();
@@ -15,12 +16,28 @@ export async function clientLoader({ request}: LoaderFunctionArgs) {
     return { session };
 }
 
+const onAuthStateChange = (callback: (event : AuthChangeEvent) => void) => {
+    let currentSession: Session | null;
+    return supabase.auth.onAuthStateChange((event, session) => {
+        if (session?.user?.id == currentSession?.user?.id) {
+            return;
+        }
+        
+        currentSession = session;
+        callback(event);
+    });
+}
+
+
+
 export default function AppLayout() {
     const revalidator = useRevalidator();
 
     useEffect(() => {
-        const { data } = supabase.auth.onAuthStateChange((event, session) => {
-            revalidator.revalidate();            
+        const { data } = onAuthStateChange((event) => {
+            if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+                revalidator.revalidate();
+            }
         });
 
         return () => {
@@ -34,11 +51,13 @@ export default function AppLayout() {
         <>
             <header></header>
 
-            <main>
+            <main className="w-full max-w-5xl mx-auto">
                 <Outlet />
             </main>
 
-            <footer></footer>
+            <footer className="text-center py-2 text-sm text-gray-500">
+                © 2026 DailyWords
+            </footer>
         </>
     )
 }
