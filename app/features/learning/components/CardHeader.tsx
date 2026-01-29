@@ -1,9 +1,9 @@
 import GrammarInfo from "./GrammarInfo";
 import { getWordStyle } from "~/features/learning/utils/card";
-import type { Grammar } from "~/features/learning/utils/card";
+import type { GrammarDetails } from "../services/dailywords";
 
 type CardHeaderProps = {
-    grammar: Grammar;
+    grammar: GrammarDetails;
 }
 
 export default function CardHeader({ grammar }: CardHeaderProps) {
@@ -14,7 +14,6 @@ export default function CardHeader({ grammar }: CardHeaderProps) {
             <div className={`h-4 w-1 rounded-full ${style.bg}`}></div>
 
             <div className="flex gap-2 text-[clamp(0.6rem,1vw,0.7rem)] font-black tracking-widest uppercase">
-                <span className="text-sk-feminine">Podstatné meno</span>
                 <GrammarInfo grammar={grammar} />
             </div>
         </div>

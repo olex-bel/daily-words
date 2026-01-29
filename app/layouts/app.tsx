@@ -3,6 +3,7 @@ import { Outlet, redirect, useRevalidator } from "react-router"
 import type { LoaderFunctionArgs } from "react-router";
 import supabase from "~/services/supabase"
 import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
+import logo from "~/asset/logo.svg";
 
 export async function clientLoader({ request}: LoaderFunctionArgs) {
     const { data: { session }, error } = await supabase.auth.getSession();
@@ -49,9 +50,11 @@ export default function AppLayout() {
 
     return (
         <>
-            <header></header>
+            <header className="bg-surface shadow-sm py-1 px-2 h-[30px] md:h-[60px]">
+                <img src={logo} alt="DailyWords Logo" className="drop-shadow-md rounded-t-2xl rounded-br-2xl h-full" />
+            </header>
 
-            <main className="w-full max-w-5xl mx-auto">
+            <main className="w-[90%] max-w-5xl mx-auto">
                 <Outlet />
             </main>
 

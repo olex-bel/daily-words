@@ -9,7 +9,7 @@
   --color-ink: theme("colors.stone.800");
   --color-ink-light: theme("colors.stone.500");
   --color-canvas: theme("colors.neutral.100");
-  --color-surface: theme("colors.zinc.50");
+  --color-surface: theme("colors.white");
   --color-word-masculine: theme("colors.blue.400");
   --color-word-feminine: theme("colors.pink.400");
   --color-word-neutral: theme("colors.green.400");
@@ -23,4 +23,21 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+@theme {
+  @keyframes appearance {
+    from { 
+      opacity: 0; 
+      transform: scale(0.5); 
+    }
+    to { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+  }
+}
+
+.animate-zoom-in {
+  animation: appearance 0.5s ease-out forwards;
 }

@@ -55,16 +55,14 @@ export default function LearningPage({ words }: LearningPageProps) {
             <div className="flex items-center justify-between p-2 md:p-4">
                 <Link to="/dashboard" className="no-underline hover:underline">{t('learning.finishButton')}</Link>
                 <div className="flex items-center gap-4">
-                    <PorgressBar value={state.currentIndex + 1} max={total} className="md:w-40" />
-                    <span>
-                        {state.completed? (
-                            <span className="text-green-600 flex items-center gap-1">
-                                {total} / {total}
-                            </span>)
-                            : 
-                            `${state.currentIndex + 1} / ${total}`
-                        }
-                    </span>
+                    <PorgressBar value={state.currentIndex + 1} max={total} className="w-24 md:w-40" />
+                    {state.completed? (
+                        <span className="text-green-600 flex items-center gap-1">
+                            {total} / {total}
+                        </span>)
+                        : 
+                        (<span>{state.currentIndex + 1} / {total}</span>)
+                    }
                 </div>
             </div>
 

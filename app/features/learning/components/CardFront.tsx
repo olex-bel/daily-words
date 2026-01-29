@@ -1,4 +1,5 @@
 import CardHeader from "./CardHeader";
+import Button from "~/shared/components/Button";
 import { useTranslation } from "react-i18next";
 import { getWordStyle } from "~/features/learning/utils/card";
 import type { WordEntry } from "../services/dailywords";
@@ -25,12 +26,13 @@ export default function CardFront({ entry, onShowTranslation }: CardFrontProps) 
                     {example}
                 </p>
             </div>
-            <button 
-                className="bg-primary py-2 rounded-sm w-8/9 mx-auto block mt-8 text-white font-semibold hover:scale-105 transition-transform"
+            <Button 
+                variant="primary"
+                className="py-2 w-8/9 mx-auto block mt-8"
                 onClick={onShowTranslation}
             >
                 {t('learning.showTranslation')}
-            </button>
+            </Button>
         </div>
     );
 }

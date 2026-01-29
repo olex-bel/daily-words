@@ -5,31 +5,31 @@ export const WORD_STYLES = {
         bg: 'bg-word-masculine',
         text: 'text-word-masculine',
         shadow: 'shadow-word-masculine',
-        label: 'Podstatné meno (m)'
+        border: 'border-word-masculine',
     },
     f: {
         bg: 'bg-word-feminine',
         text: 'text-word-feminine',
         shadow: 'shadow-word-feminine',
-        label: 'Podstatné meno (ž)'
+        border: 'border-word-feminine',
     },
     n: {
         bg: 'bg-word-neutral',
         text: 'text-word-neutral',
         shadow: 'shadow-word-neutral',
-        label: 'Podstatné meno (s)'
+        border: 'border-word-neutral',
     },
     action: {
         bg: 'bg-word-action',
         text: 'text-word-action',
         shadow: 'shadow-word-action',
-        label: 'Sloveso'
+        border: 'border-word-action',
     },
     default: {
         bg: 'bg-gray-500',
         text: 'text-gray-500',
         shadow: 'shadow-gray-200',
-        label: 'Slovo'
+        border: 'border-gray-500',
     }
 } as const;
 
