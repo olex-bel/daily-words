@@ -1,0 +1,1 @@
+function r(e){if(!e)return null;const[t,a,n]=e.split("-").map(Number);return new Date(t,a-1,n)}function u(e){return new Intl.DateTimeFormat("uk-UA",{year:"numeric",month:"long",day:"numeric"}).format(e)}function o(e,t){return e.getUTCFullYear()==t.getUTCFullYear()&&e.getUTCMonth()==t.getUTCMonth()&&e.getUTCDate()==t.getUTCDate()}export{u as f,r as p,o as s};
