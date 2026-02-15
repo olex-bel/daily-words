@@ -12,10 +12,10 @@ export default function Flashcard({ entry }: FlashcardProps) {
     const [isFlipped, setIsFlipped] = useState(false);
 
     return (
-        <article className={`w-full max-w-md min-h-[280px] md:min-h-[320px] perspective-distant`}>
+        <article className={`w-full max-w-md h-[280px] md:h-[320px] perspective-distant`}>
             <Surface className={`relative transform-3d transition-transform duration-700 w-full h-full ${isFlipped ? 'rotate-x-180' : ''}`}>
                 <CardFront entry={entry} onShowTranslation={() => setIsFlipped(true)} />
-                <CardBack entry={entry} />
+                <CardBack entry={entry} onShowTranslation={() => setIsFlipped(false)} />
             </Surface>
         </article>
     );

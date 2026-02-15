@@ -218,7 +218,7 @@ BEGIN
     FROM public.user_entries ue
     JOIN public.entries e ON ue.entry_id = e.id
     WHERE ue.user_id = auth.uid()
-    ORDER BY ue.created_at
+    ORDER BY ue.created_at desc
     LIMIT target_limit;
 END;
 $$;

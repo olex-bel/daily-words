@@ -1,7 +1,7 @@
 
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariants = 'primary';
+type ButtonVariants = 'primary' | 'text';
 
 type LinkButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: ButtonVariants;
@@ -15,8 +15,11 @@ export default function Button({ className = "", children, variant, icon, ...pro
         case 'primary':
             variantClasses = 'bg-primary text-white hover:brightness-90';
             break;
+        case 'text':
+            variantClasses = 'border-none';
+            break;
         default:
-            variantClasses = '';
+            variantClasses = 'rounded-md font-semibold transition-all active:scale-95 shadow-sm';
     }
 
     if (icon) {
@@ -24,7 +27,7 @@ export default function Button({ className = "", children, variant, icon, ...pro
     }
 
     return (
-        <button {...props} className={`rounded-md font-semibold transition-all active:scale-95 shadow-sm ${className} ${variantClasses}`}>
+        <button {...props} className={`${className} ${variantClasses}`}>
             {icon && <span className="mr-2 inline-flex">{icon}</span>}
             {children}
         </button>

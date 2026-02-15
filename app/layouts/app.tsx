@@ -73,7 +73,7 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
                 <Outlet context={ { profile } satisfies AuthOutletContext }/>
             </main>
 
-            <footer className="text-center py-2 text-sm text-gray-500">
+            <footer className="text-center py-2 text-sm text-ink-muted">
                 © 2026 DailyWords
             </footer>
         </>

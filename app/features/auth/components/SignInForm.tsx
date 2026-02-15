@@ -50,7 +50,7 @@ export default function SignInForm() {
                     {t('signin.submitButton')}
                 </button>
 
-                <p className="text-sm text-ink-light mt-2 text-center">
+                <p className="text-sm text-ink-muted mt-2 text-center">
                     {t('signin.noAccount')}
                     <Link to="/signup" className="text-primary font-semibold hover:underline ml-1">
                         {t('signin.signupLink')}

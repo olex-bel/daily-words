@@ -15,7 +15,7 @@ export default function Home() {
         <img src={wordcloud} alt={t("home.imageAlt")} className="w-2xs mask-y-from-70% mask-y-to-90%" />
         <section>
           <h1 className="text-[clamp(1rem,2vw,1.875rem)] font-bold text-center">{t('home.headline')}</h1>
-          <p className="mt-4 text-justify text-ink-light">{t('home.intro1')} {t('home.intro2')}</p>
+          <p className="mt-4 text-justify text-ink-muted">{t('home.intro1')} {t('home.intro2')}</p>
 
           <section className="flex flex-col gap-2 mt-4">
             <LinkButton to="/signup" className="bg-primary text-white w-full max-w-sm mx-auto">
