@@ -22,7 +22,7 @@ export default function LearningSession({
 
             <div className="grid grid-flow-col auto-cols-fr gap-4 mt-6 md:mt-8 text-xs md:text-sm">
                 <Button 
-                    className="bg-white border-1 border-red-100 hover:bg-red-50 text-red-600 transition-all active:scale-95 px-4 py-2" 
+                    className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-error text-error-dark transition-all active:scale-95 px-4 py-2" 
                     onClick={() => onAnswer(entry.id, 'unknown')}
                     icon={<RiCloseFill />}
                 >
@@ -30,7 +30,7 @@ export default function LearningSession({
                 </Button>
 
                 <Button 
-                    className="bg-white border-1 border-orange-100 hover:bg-orange-50 text-orange-600 transition-all active:scale-95 px-4 py-2" 
+                    className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-warning text-warning-dark transition-all active:scale-95 px-4 py-2" 
                     onClick={() => onAnswer(entry.id, 'hard')}
                     icon={<RiErrorWarningLine />}
                 >
@@ -38,7 +38,7 @@ export default function LearningSession({
                 </Button>
 
                 <Button 
-                    className="bg-white border-1 border-green-100 hover:bg-green-50 text-green-600 transition-all active:scale-95 px-4 py-2" 
+                    className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-success text-success-dark transition-all active:scale-95 px-4 py-2" 
                     onClick={() => onAnswer(entry.id, 'know')}
                     icon={<RiCheckFill />}
                 >

@@ -1,5 +1,6 @@
 
 import { useTranslation } from "react-i18next";
+import Surface from "~/shared/components/ui/Surface";
 import { formatDate } from "~/utils/date";
 import type { RecentEntry } from "~/services/entryService";
 
@@ -11,19 +12,19 @@ export default function RecentEntries({ entries }: RecentEntriesProps) {
     const { t } = useTranslation();
 
     return (
-        <section className="space-y-4">
+        <section className="mt-12">
             <div className="flex justify-between items-center px-1">
-                <h3 className="font-bold text-slate-700 uppercase text-xs tracking-widest">
+                <h3 className="font-bold text-ink uppercase text-xs tracking-widest">
                     {t('dashboard.lastAddedWords')}
                 </h3>
             </div>
             
-            <div className="space-y-2">
+            <div className="mt-6 flex flex-col gap-3">
                 {entries.map((entry) => (
-                    <div key={entry.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-sky-200 transition-colors cursor-default">
-                        <span className="font-bold text-slate-700">{entry.content}</span>
-                        <span className="text-xs text-slate-400 italic">{entry.created_at && formatDate(entry.created_at)}</span>
-                    </div>
+                    <Surface key={entry.id} className="flex items-center justify-between p-4 cursor-default">
+                        <span className="font-semibold text-ink">{entry.content}</span>
+                        <span className="text-xs text-ink-muted italic">{entry.created_at && formatDate(entry.created_at)}</span>
+                    </Surface>
                 ))}
             </div>
         </section>

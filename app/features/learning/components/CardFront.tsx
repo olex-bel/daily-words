@@ -2,9 +2,10 @@ import CardHeader from "./CardHeader";
 import Button from "~/shared/components/ui/Button";
 import AudioPlayer from "./AudioPlayer";
 import { useTranslation } from "react-i18next";
-import { getWordStyle } from "~/features/learning/utils/card";
-import supabase from "~/services/supabase";
+import { RiResetRightFill } from "react-icons/ri";
+import { getContentStyles } from "../utils/content";
 import type { Entry } from "../../../services/entryService";
+import type { MouseEvent } from "react";
 
 
 type CardFrontProps = {
@@ -15,29 +16,34 @@ type CardFrontProps = {
 export default function CardFront({ entry, onShowTranslation }: CardFrontProps) {
     const { t } = useTranslation();
     const { content, grammar, example, audio_url } = entry;
-    const style = getWordStyle(grammar);
+    const contentCss = getContentStyles(content);
+
+    const handleButtonClick = (e: MouseEvent) => {
+        e.preventDefault();
+
+        if (onShowTranslation) {
+            onShowTranslation();
+        }
+    };
 
     return (
-        <div className={`h-full flex flex-col backface-hidden p-4 rotate-x-0 shadow-md ${style.shadow}`}>
+        <div className="h-full flex flex-col backface-hidden p-4 rotate-x-0 shadow-md hover:shadow-xl cursor-pointer overflow-hidden" onClick={onShowTranslation}>
             <CardHeader grammar={grammar} />
-            <div className="uppercase text-4xl md:text-5xl font-extrabold text-ink text-center">
+            <div className={`uppercase text-primary-dark text-center ${contentCss}`}>
                 {content}
             </div>
-            <div className="flex-grow flex justify-center items-center">
-                <p className="font-serif text-lg md:text-xl italic text-ink-light leading-relaxed">
+            <div className="flex-grow flex justify-center items-center overflow-hidden text-ellipsis">
+                <p className="font-serif text-lg md:text-xl italic text-ink leading-relaxed">
                     {example}
                 </p>
             </div>
-            <div className="h-10 flex justify-center flex-none">
+            <div className="h-10 flex justify-between items-center shrink-0">
                 {audio_url && <AudioPlayer url={audio_url} />}
+
+                <Button variant="text" aria-label="Перевернути картку" aria-pressed="false"  className="p-2 bg-surface hover:bg-surface-hover" onClick={handleButtonClick}>
+                    <RiResetRightFill aria-hidden="true" focusable="false" className="w-6 h-6 text-ink" />
+                </Button>
             </div>
-            <Button 
-                variant="primary"
-                className="py-2 w-8/9 mx-auto block mt-8"
-                onClick={onShowTranslation}
-            >
-                {t('learning.showTranslation')}
-            </Button>
         </div>
     );
 }

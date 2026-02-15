@@ -19,15 +19,13 @@ export default function StatsGrid({ stats }: StatsGridProps) {
                 label={t('dashboard.totalWords')} 
                 value={stats.total_system_words} 
                 description={t('dashboard.wordsAvailable')}
-                color="bg-slate-100 text-slate-600" 
                 icon={<RiGlobalLine className="text-2xl opacity-50" />} 
             />
             <StatCard 
                 label={t('dashboard.personalProgress')}
                 value={stats.mastered_words} 
                 description={completionRate > 0 ? t('dashboard.learnedRate', { rate: completionRate }) : t('dashboard.noLearnedWords')} 
-                color="bg-emerald-50 text-emerald-600" 
-                icon={<RiTrophyLine className="text-2xl" />} 
+                icon={<RiTrophyLine className="text-2xl text-success" />} 
             />
         </div>
     );

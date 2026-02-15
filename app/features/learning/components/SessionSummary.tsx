@@ -24,24 +24,24 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
             <Surface className="flex flex-col p-8 gap-8 items-center max-w-sm w-full">
                 <div className="text-center space-y-2">
                     <div className="flex justify-center mb-2">
-                        <div className="bg-yellow-100 p-4 rounded-full animate-bounce duration-1000">
-                            <RiTrophyLine className="text-5xl text-yellow-500" />
+                        <div className="bg-warning-light p-4 rounded-full animate-bounce duration-1000">
+                            <RiTrophyLine className="text-5xl text-warning-ink" />
                         </div>
                     </div>
-                    <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">
+                    <h2 className="text-3xl font-bold tracking-tight uppercase">
                         {t('learning.summary.title')}
                     </h2>
-                    <p className="text-slate-500 font-medium">{t('learning.summary.message')}</p>
+                    <p className="text-ink-muted font-medium">{t('learning.summary.message')}</p>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 w-full">
-                    <StatBox label={t('learning.summary.know')} value={results.know} color="bg-green-500" textColor="text-green-600" />
-                    <StatBox label={t('learning.summary.hard')} value={results.hard} color="bg-orange-400" textColor="text-orange-600" />
-                    <StatBox label={t('learning.summary.dontKnow')} value={results.unknown} color="bg-red-400" textColor="text-red-600" />
+                    <StatBox label={t('learning.summary.know')} value={results.know} color="bg-success" textColor="text-success-dark" />
+                    <StatBox label={t('learning.summary.hard')} value={results.hard} color="bg-warning" textColor="text-warning-dark" />
+                    <StatBox label={t('learning.summary.dontKnow')} value={results.unknown} color="bg-error" textColor="text-error-dark" />
                 </div>
 
                 <div className="w-full pt-2">
-                   <p className="text-center text-sm text-slate-400 font-bold mb-4 uppercase tracking-widest">
+                   <p className="text-center text-sm text-ink-muted font-bold mb-4 uppercase tracking-widest">
                       {t('learning.summary.totalCards', { total })}
                    </p>
                 </div>
@@ -49,11 +49,9 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
                 <div className="flex flex-col gap-3 w-full">
                     <Button
                         onClick={onRepeat}
-                        variant="primary"
                         className="
                             w-full flex items-center justify-center gap-2 py-4 uppercase
-                            bg-sky-600 text-white font-black rounded-2xl 
-                            shadow-[0_4px_0_0_#0369a1] active:translate-y-[4px] active:shadow-none 
+                            bg-secondary text-secondary-ink hover:bg-secondary-dark
                             transition-all
                         "
                     >
@@ -65,8 +63,8 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
                         onClick={onExit}
                         className="
                             w-full flex items-center justify-center gap-2 py-4 uppercase
-                            text-slate-500 font-bold rounded-2xl
-                            hover:bg-slate-50 transition-colors
+                            font-bold border border-line
+                            transition-colors hover:bg-line/40
                         "
                     >
                         <RiBookShelfLine className="text-xl" />

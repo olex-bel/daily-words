@@ -32,7 +32,7 @@ export default function AudioPlayer({ url, className }: AudioPlayerProps) {
         <button 
             onClick={playAudio}
             className={`p-2 rounded-full transition-colors ${className || ''} ${
-                isPlaying ? 'text-sky-500 bg-sky-50' : 'text-slate-400 hover:text-sky-600 hover:bg-slate-100'
+                isPlaying ? 'text-secondary bg-secondary-ink' : 'text-ink hover:text-secondary hover:bg-secondary-ink'
             }`}
             title={t('learning.audioTitle')}
         >

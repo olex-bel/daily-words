@@ -15,9 +15,9 @@ export default function RecentEntriesSkeleton({ count }: RecentEntriesSkeletonPr
             
             <div className="space-y-2">
                 {entries.map((index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-sky-200 transition-colors cursor-default">
-                        <div className="h-5 w-32 bg-slate-200 rounded-lg"></div>
-                        <div className="h-3 w-20 bg-slate-100 rounded-md"></div>
+                    <div key={index} className="flex items-center justify-between p-4 bg-white rounded-2xl border shadow-sm border-slate-100 hover:border-sky-200 dark:border-slate-800 dark:hover:border-sky-700 transition-colors cursor-default">
+                        <div className="h-5 w-32 bg-ink rounded-lg"></div>
+                        <div className="h-3 w-20 bg-ink-muted rounded-md"></div>
                     </div>
                 ))}
             </div>
