@@ -1,0 +1,1 @@
+import{c as l,l as c}from"./learning-bYY2KPZG.js";import"./chunk-WWGJGFF6-BLr-ERng.js";import"./index-DgLn50yG.js";import"./supabase-B_K81v3k.js";import"./date-DQzPoZJQ.js";import"./useTranslation-EEi3EmW_.js";import"./Surface-DOpK_x3r.js";export{l as clientLoader,c as default};
