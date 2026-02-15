@@ -15,12 +15,12 @@ export default function ReviewMessage({ status, stats }: ReviewMessageProps) {
         case 'CONTINUE':
             return <>{t('dashboard.reviewStatus.CONTINUE.1')} <strong>{t('dashboard.reviewStatus.CONTINUE.2')}</strong>.</>;
         case 'COMPLETED_TODAY':
-            return <>{t('dashboard.reviewStatus.COMPLETED_TODAY.1')} <strong>{t('dashboard.reviewStatus.COMPLETED_TODAY.2')}</strong>.</>;
+            return <>{t('dashboard.reviewStatus.COMPLETED_TODAY.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.COMPLETED_TODAY.2')}</strong>.</>;
         case 'REVIEW_ONLY':
             return <>{t('dashboard.reviewStatus.REVIEW_ONLY.1')} <strong>{t('dashboard.reviewStatus.REVIEW_ONLY.2', { total: stats.daily_task_total })}</strong>.</>;
         case 'START_NEW':
-            return <>{t('dashboard.reviewStatus.START_NEW.1')} <strong>{t('dashboard.reviewStatus.START_NEW.2')}</strong>.</>;
+            return <>{t('dashboard.reviewStatus.START_NEW.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.START_NEW.2')}</strong>.</>;
         default:
-            return <>{t('dashboard.reviewStatus.ALL_LEARNED.1')} <strong>{t('dashboard.reviewStatus.ALL_LEARNED.2')}</strong>!</>;
+            return <>{t('dashboard.reviewStatus.ALL_LEARNED.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.ALL_LEARNED.2')}</strong>!</>;
     }
 };

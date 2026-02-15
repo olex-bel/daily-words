@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Outlet, redirect, useRevalidator } from "react-router"
 import supabase from "~/services/supabase"
 import { getUserProfileCached } from "~/services/profileService.cached";
-import logo from "~/asset/logo.svg";
+import Logo from "~/shared/components/common/Logo";
 import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
 import type { UserProfile } from "~/services/profileService";
 import type { LoaderFunctionArgs } from "react-router";
@@ -65,7 +65,7 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
         <>
             <header className="bg-surface shadow-sm h-[50px] md:h-[70px] flex items-center">
                 <div className="w-[90%] max-w-5xl mx-auto flex items-center">
-                    <img src={logo} alt="DailyWords Logo" className="h-8 md:h-10 drop-shadow-md rounded-t-xl rounded-br-xl" />
+                    <Logo />
                 </div>
             </header>
 

@@ -76,7 +76,11 @@
         "wordsAvailable": "Доступно для вивчення",
         "personalProgress": "Мій прогрес",
         "noLearnedWords": "Почнемо вчити?",
-        "learnedRate": "{{rate}}% від усіх слів",
+        "status": {
+            "inProgress": "Вивчаються",
+            "mastered": "Вивчено",
+            "noWordsYet": "Час додати перше слово!"
+        },
         "lastAddedWords": "Останні додані слова і вирази",
         "noWordsMessage": "Ви виконали план на сьогодні! Нові слова з'являться зовсім скоро.",
         "reviewTitle": "На сьогодні",
