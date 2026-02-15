@@ -3,6 +3,7 @@ import { useAuthContext } from "~/hooks/useAuthContext";
 import Surface from "~/shared/components/ui/Surface";
 import LinkButton from "~/shared/components/ui/LinkButton";
 import ReviewMessage from "./ReviewMessage";
+import StatusIcon from "./StatusIcon";
 import { getReviewStatus } from "../utils/review";
 import type { DashboardStats } from "../services/statsService";
 
@@ -20,9 +21,12 @@ export default function SmartReview({ stats }: SmartReviewProps) {
         <Surface className="relative overflow-hidden border-none bg-surface text-ink p-8 group">
             <div className="relative z-10">
                 <h2 className="text-2xl font-bold mb-2">{t('dashboard.reviewTitle')}</h2>
-                <p className="text-ink mb-6 opacity-90">
-                    <ReviewMessage stats={stats} status={status} />
-                </p>
+                <div className="flex items-start sm:items-center mb-6">
+                    <StatusIcon status={status} />
+                    <p className="text-ink opacity-90 ">
+                        <ReviewMessage stats={stats} status={status} />
+                    </p>
+                </div>
                 {showButton && 
                     <LinkButton 
                         to="/learning" 

@@ -1,24 +1,28 @@
+import Surface from "~/shared/components/ui/Surface";
+import { useTranslation } from "react-i18next";
 
 type RecentEntriesSkeletonProps = {
     count: number;
 }
 
 export default function RecentEntriesSkeleton({ count }: RecentEntriesSkeletonProps) {
+    const { t } = useTranslation();
     const entries = [...Array(count).keys()]
 
     return (
-        <section className="space-y-4 animate-pulse">
+        <section className="mt-12">
             <div className="flex justify-between items-center px-1">
-                <h3 className="font-bold text-slate-700 uppercase text-xs tracking-widest">
+                <h3 className="font-bold text-ink uppercase text-xs tracking-widest">
+                    {t('dashboard.lastAddedWords')}
                 </h3>
             </div>
-            
-            <div className="space-y-2">
+        
+            <div className="mt-6 flex flex-col gap-3">
                 {entries.map((index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-white rounded-2xl border shadow-sm border-slate-100 hover:border-sky-200 dark:border-slate-800 dark:hover:border-sky-700 transition-colors cursor-default">
-                        <div className="h-5 w-32 bg-ink rounded-lg"></div>
-                        <div className="h-3 w-20 bg-ink-muted rounded-md"></div>
-                    </div>
+                    <Surface key={index} className="flex items-center justify-between p-4 cursor-default">
+                        <div className="h-5 w-32 bg-ink/5"></div>
+                        <div className="h-3 w-20 bg-ink/5"></div>
+                    </Surface>
                 ))}
             </div>
         </section>
