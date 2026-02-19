@@ -4,6 +4,8 @@
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+  
+  --text-tiny: 0.625rem; 
 
   --color-page: theme("colors.neutral.100");
   --color-ink: theme("colors.zinc.950");

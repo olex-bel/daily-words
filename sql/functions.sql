@@ -172,6 +172,7 @@ RETURNS TABLE (
     total_system_words bigint,
     user_total_words bigint,
     mastered_words bigint,
+    total_stages bigint,
     in_learning bigint,
     daily_task_total bigint,
     new_today bigint
@@ -187,7 +188,8 @@ BEGIN
     SELECT
         all_words_count,
         count(*) as user_total_words,
-        count(*) FILTER (WHERE stage >= 5) as mastered_words, 
+        count(*) FILTER (WHERE stage >= 5) as mastered_words,
+        sum(stage) as total_stages, 
         count(*) FILTER (WHERE stage > 0 AND stage < 5) as in_learning,
         count(*) FILTER (WHERE due_at <= CURRENT_DATE) as daily_task_total,
         count(*) FILTER (WHERE due_at <= CURRENT_DATE AND review_count = 0) as new_today

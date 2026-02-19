@@ -72,11 +72,12 @@
         "welcomeMessage": "Привіт, {{name}}!",
         "welcomeMessageWithoutNmae": "Привіт!",
         "heading": "Сьогодні чудовий день, щов вивчати нові слова!",
-        "totalWords": "Всього в системі",
         "wordsAvailable": "Доступно для вивчення",
-        "personalProgress": "Мій прогрес",
+        "personalProgress": "Мої слова",
         "noLearnedWords": "Почнемо вчити?",
         "status": {
+            "level": "Твій Рівень",
+            "toNextLevel": "до нового рівня",
             "inProgress": "Вивчаються",
             "mastered": "Вивчено",
             "noWordsYet": "Час додати перше слово!"
