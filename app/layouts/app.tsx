@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, redirect, useRevalidator } from "react-router"
 import supabase from "~/services/supabase"
-import { getUserProfileCached } from "~/services/profileService.cached";
+import { getUserProfile } from "~/services/profileService";
 import Logo from "~/shared/components/common/Logo";
 import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
 import type { UserProfile } from "~/services/profileService";
@@ -18,7 +18,7 @@ export async function clientLoader({ request}: LoaderFunctionArgs) {
         return redirect(`/signin?${params.toString()}`);
     }
 
-    const profile: UserProfile | null = await getUserProfileCached(session.user.id);
+    const profile: UserProfile | null = await getUserProfile(session.user.id);
 
     if (!profile) {
         throw new Response("User profile not found", { status: 404 });
@@ -32,10 +32,6 @@ const onAuthStateChange = (callback: (event : AuthChangeEvent) => void) => {
     return supabase.auth.onAuthStateChange((event, session) => {
         if (session?.user?.id == currentSession?.user?.id) {
             return;
-        }
-
-        if (currentSession) {
-            getUserProfileCached.invalidate(currentSession.user.id)
         }
         
         currentSession = session;

@@ -9,7 +9,7 @@ import {
 } from "react-router";
 
 import { useTranslation } from "react-i18next";
-
+import { RiLoader4Line } from "react-icons/ri";
 import type { Route } from "./+types/root";
 import "./app.css";
 import './i18n';
@@ -26,6 +26,12 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,800;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap",
   },
 ];
+
+export function HydrateFallback() {
+  return <div className="min-h-screen flex justify-center items-center animate-spin text-ink">
+    <RiLoader4Line className="h-12 w-12" />
+  </div>;
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { lang } = useParams<{ lang: string }>();

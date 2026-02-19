@@ -2,6 +2,7 @@ import supabase from "~/services/supabase";
 
 export type DashboardStats = {
     total_system_words: number;
+    total_stages: number;
     user_total_words: number;
     mastered_words: number;
     in_learning: number;
