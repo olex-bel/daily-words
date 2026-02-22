@@ -8,7 +8,7 @@ export async function clientLoader() {
     const words = await getDailyEntries(MAX_DAILY_ENTRIES);
 
     if (words.length === 0) {
-        return redirect('/dashboard');
+       return redirect('/dashboard');
     }
 
     return { words };
@@ -22,7 +22,7 @@ export default function Learning({ loaderData }: Route.ComponentProps) {
             <title>{t("learning.meta.title")}</title>
             <meta name="description" content={t("learning.meta.description")} />
             <meta name="keywords" content={t("learning.meta.keywords")} />
-            <LearningPage words={words} />
+            <LearningPage mode="learn" words={words} />
         </>
     );
 }

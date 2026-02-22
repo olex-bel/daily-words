@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { RiPlayLargeFill, RiPauseLargeFill } from 'react-icons/ri';
+import { RiSpeakFill, RiPauseLargeFill } from 'react-icons/ri';
 import { useState } from 'react';
 
 type AudioPlayerProps = {
@@ -36,7 +36,7 @@ export default function AudioPlayer({ url, className }: AudioPlayerProps) {
             }`}
             title={t('learning.audioTitle')}
         >
-            {isPlaying ? <RiPauseLargeFill className="w-6 h-6" /> : <RiPlayLargeFill className="w-6 h-6" />}
+            {isPlaying ? <RiPauseLargeFill className="w-6 h-6" /> : <RiSpeakFill className="w-6 h-6" />}
         </button>
     );
 }

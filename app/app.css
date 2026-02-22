@@ -13,10 +13,12 @@
   --color-primary: theme("colors.green.700");
   --color-primary-light: theme("colors.green.300");
   --color-primary-dark: theme("colors.green.800");
+  --color-primary-hover: theme("colors.green.800");
   --color-primary-ink: theme("colors.green.50");
   --color-secondary: theme("colors.blue.800");
   --color-secondary-light: theme("colors.blue.400");
   --color-secondary-dark: theme("colors.blue.900");
+  --color-secondary-hover: theme("colors.blue.900");
   --color-secondary-ink: theme("colors.blue.50");
   --color-surface: theme("colors.white");
   --color-surface-hover: theme("colors.neutral.100");
@@ -46,19 +48,39 @@ body {
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
-    --color-primary: theme("colors.sky.400");
-    --color-secondary: theme("colors.slate.400");
-
-    --color-ink: theme("colors.neutral.100");
-    --color-ink-muted: theme("colors.neutral.400");
-
-    --color-canvas: theme("colors.neutral.900");
+    
+    --color-page: theme("colors.neutral.900");
+    --color-ink: theme("colors.zinc.100");
+    --color-ink-muted: theme("colors.zinc.400");
     --color-surface: theme("colors.neutral.800");
-
-    --color-word-masculine: theme("colors.blue.300");
-    --color-word-feminine: theme("colors.pink.300");
-    --color-word-neutral: theme("colors.emerald.300");
-    --color-word-action: theme("colors.red.300");
+    --color-surface-hover: theme("colors.neutral.700");
+    --color-line: theme("colors.zinc.700");
+    --color-disabled: theme("colors.zinc.600");
+    --color-primary: theme("colors.green.400");
+    --color-primary-light: theme("colors.green.300");
+    --color-primary-dark: theme("colors.green.500");
+    --color-primary-hover: theme("colors.green.300");
+    --color-primary-ink: theme("colors.zinc.900");
+    --color-secondary: theme("colors.blue.400");
+    --color-secondary-light: theme("colors.blue.300");
+    --color-secondary-dark: theme("colors.blue.500");
+    --color-secondary-hover: theme("colors.blue.300");
+    --color-secondary-ink: theme("colors.zinc.900");
+    --color-error: theme("colors.red.400");
+    --color-error-light: theme("colors.red.300");
+    --color-error-dark: theme("colors.red.500");
+    --color-error-ink: theme("colors.zinc.900");
+    --color-success: theme("colors.green.400");
+    --color-success-dark: theme("colors.green.500");
+    --color-success-ink: theme("colors.zinc.900");
+    --color-warning: theme("colors.amber.400");
+    --color-warning-light: theme("colors.amber.300");
+    --color-warning-dark: theme("colors.amber.500");
+    --color-warning-ink: theme("colors.zinc.900");
+    --color-word-masculine: theme("colors.blue.400");
+    --color-word-feminine: theme("colors.red.400");
+    --color-word-neutral: theme("colors.emerald.400");
+    --color-word-default: theme("colors.zinc.400");
   }
 }
 

@@ -11,11 +11,14 @@ type AnswerPayload = {
   isLast: boolean;
 }
 
-type AnswerAction = Action<'ANSWER', AnswerPayload>;
-type IncrementIndexAction = Action<'INCREMENT_INDEX'>;
-type SetCompletedAction = Action<'SET_COMPLETED', boolean>;
+type NextPayload = {
+  isLast: boolean;
+}
 
-export type LearningAction = AnswerAction | IncrementIndexAction | SetCompletedAction;
+type AnswerAction = Action<'ANSWER', AnswerPayload>;
+type NextAction = Action<'NEXT', NextPayload>;
+
+export type LearningAction = AnswerAction | NextAction;
 
 export interface LearningState {
     readonly know: number;

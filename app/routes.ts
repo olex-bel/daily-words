@@ -8,5 +8,6 @@ export default [
     layout("./layouts/app.tsx", { id: 'app '}, [
         route("learning", "routes/learning.tsx"),
         route("dashboard", "routes/dashboard.tsx"),
+        route("review", "routes/review.tsx"),
     ]),
 ] satisfies RouteConfig;

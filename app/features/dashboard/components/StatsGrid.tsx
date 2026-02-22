@@ -45,7 +45,7 @@ export default function StatsGrid({ stats }: StatsGridProps) {
                     stats.user_total_words > 0 ? (
                         <div className="flex flex-col gap-1 mt-1 text-tiny font-medium">
                             <div className="flex justify-between">
-                                <span className="text-secondary-dark">{t('dashboard.status.inProgress')}:</span>
+                                <span className="text-secondary-dark dark:text-ink">{t('dashboard.status.inProgress')}:</span>
                                 <span>{stats.in_learning}</span>
                             </div>
                             <div className="flex justify-between">

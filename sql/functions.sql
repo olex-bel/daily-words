@@ -106,7 +106,9 @@ RETURNS TABLE (
   meanings jsonb,
   grammar jsonb,
   rating public.content_rating,
-  example text
+  stage smallint,
+  example text,
+  audio_path text
 )
 LANGUAGE plpgsql
 AS $$
@@ -120,7 +122,8 @@ BEGIN
       e.grammar,
       e.rating,
       ue.stage,
-      ex.text AS example
+      ex.text AS example,
+      e.audio_path
     FROM public.user_entries ue
       JOIN public.entries e ON ue.entry_id = e.id
       JOIN public.translations t ON e.id = t.entry_id AND t.language_code = 'uk'
@@ -137,6 +140,7 @@ BEGIN
           LIMIT 1
       ) ex ON true
     WHERE ue.user_id = auth.uid() AND ue.stage < 3
+    ORDER BY ue.created_at DESC
     LIMIT 10;
 END;
 $$;
