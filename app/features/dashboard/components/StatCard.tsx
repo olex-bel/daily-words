@@ -11,7 +11,7 @@ type StatCardProps = {
 
 export default function StatCard({ label, value, children, icon }: StatCardProps) {
     return (
-        <Surface className="border-none p-5 flex flex-col gap-1">
+        <Surface className="p-5 flex flex-col gap-1">
             <div className="flex justify-between items-start">
                 <span className="text-2xl font-black text-ink">{value}</span>
                 <span>{icon}</span>

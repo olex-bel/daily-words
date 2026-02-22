@@ -1,50 +1,38 @@
 import { useTranslation } from "react-i18next";
 import Flashcard from "~/features/learning/components/Flashcard";
+import UserAnswers from "./UserAnswers";
 import Button from "~/shared/components/ui/Button";
-import { RiCloseFill, RiCheckFill, RiErrorWarningLine } from "react-icons/ri";
 import type { Answer } from "../types";
 import type { Entry } from "../../../services/entryService";
 
 type LearningSessionProps = {
+    isPending?: boolean;
+    mode: 'review' | 'learn';
     entry: Entry;
     onAnswer: (id: number, answer: Answer) => void;
 }
 
 export default function LearningSession({
+    mode,
     entry,
     onAnswer,
+    isPending,
 }: LearningSessionProps) {
     const { t } = useTranslation();
 
     return (
         <>
             <Flashcard key={entry.id} entry={entry} />
-
-            <div className="grid grid-flow-col auto-cols-fr gap-4 mt-6 md:mt-8 text-xs md:text-sm">
-                <Button 
-                    className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-error text-error-dark transition-all active:scale-95 px-4 py-2" 
-                    onClick={() => onAnswer(entry.id, 'unknown')}
-                    icon={<RiCloseFill />}
-                >
-                    {t('learning.unknownButton')}
-                </Button>
-
-                <Button 
-                    className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-warning text-warning-dark transition-all active:scale-95 px-4 py-2" 
-                    onClick={() => onAnswer(entry.id, 'hard')}
-                    icon={<RiErrorWarningLine />}
-                >
-                    {t('learning.hardButton')}
-                </Button>
-
-                <Button 
-                    className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-success text-success-dark transition-all active:scale-95 px-4 py-2" 
-                    onClick={() => onAnswer(entry.id, 'know')}
-                    icon={<RiCheckFill />}
-                >
-                    {t('learning.knownButton')}
-                </Button>
-            </div>
+            {mode === 'learn' ? <UserAnswers entryId={entry.id} onAnswer={onAnswer} isPending={isPending} />  : (
+                <div className="mt-8 w-full max-w-sm px-4">
+                    <Button 
+                        onClick={() => onAnswer(entry.id, 'know')} 
+                        className="w-full py-4 bg-primary text-primary-ink hover:bg-primary-hover transition-colors dark:border-2 dark:border-primary dark:bg-transparent dark:text-primary dark:hover:bg-primary-hover dark:hover:text-primary-ink"
+                    >
+                        {t('review.nextButton')} 
+                    </Button>
+                </div>
+            )} 
         </>
     );
 }

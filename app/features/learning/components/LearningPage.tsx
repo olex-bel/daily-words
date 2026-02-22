@@ -8,28 +8,38 @@ import Toast from "~/shared/components/ui/Toast";
 import type { LearningState, LearningAction, Answer } from "~/features/learning/types";
 import type { Entry } from "~/services/entryService";
 
-const SessionSummary = lazy(() => import('./SessionSummary'));
+const LearningSummary = lazy(() => import('./SessionSummary'));
+const ReviweSummary = lazy(() => import('./ReviewSummary'));
 
 type LearningPageProps = {
+    mode: 'review' | 'learn';
     words: Entry[];
 };
 
 const learningReducer = (state: LearningState, action: LearningAction) => {
+    const { isLast } = action.payload || {};
+
     switch (action.type) {
         case 'ANSWER':
-            const { answer, isLast } = action.payload;
+            const { answer } = action.payload;
             return {
                 ...state,
                 [answer]: state[answer] + 1,
                 completed: isLast,
                 currentIndex: isLast ? state.currentIndex : state.currentIndex +1,
             };
+        case 'NEXT':
+            return {
+                ...state,
+                completed: isLast,
+                currentIndex: isLast ? state.currentIndex : state.currentIndex + 1,
+            };
         default:
             return state;
     }
 };
 
-export default function LearningPage({ words }: LearningPageProps) {
+export default function LearningPage({ words, mode }: LearningPageProps) {
     const { error, setError, submitRating, isPending } = useEntryRating();
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -43,6 +53,11 @@ export default function LearningPage({ words }: LearningPageProps) {
     const total = words.length;
 
     const handleAnswer= async (id: number, rating: Answer) => {
+        if (mode === 'review') {
+            dispatch({ type: 'NEXT', payload: { isLast: state.currentIndex + 1 >= total } });
+            return;
+        }
+
         submitRating(id, rating, () => {
             dispatch({ type: 'ANSWER', payload: { answer: rating, isLast: state.currentIndex + 1 >= total } });
         });
@@ -67,17 +82,26 @@ export default function LearningPage({ words }: LearningPageProps) {
             <div className="flex-grow flex flex-col justify-center items-center">
                 {!state.completed ? (
                     <LearningSession
+                        mode={mode}
+                        isPending={isPending}
                         entry={words[state.currentIndex]}
                         onAnswer={handleAnswer}
                     />
                 ) : (
                     <Suspense fallback={<div>Loading...</div>}>
-                        <SessionSummary
-                            total={total}
-                            results={state}
-                            onRepeat={() => {}}
-                            onExit={() => navigate('/dashboard')}
-                        />
+                        {mode === 'learn' ? (
+                            <LearningSummary
+                                total={total}
+                                results={state}
+                                onRepeat={() => {}}
+                                onExit={() => navigate('/dashboard', { replace: true })}
+                            />
+                        ) : (
+                            <ReviweSummary
+                                total={total}
+                                onExit={() => navigate('/dashboard', { replace: true })}
+                            />
+                        )}
                     </Suspense>
                 )}
             </div>

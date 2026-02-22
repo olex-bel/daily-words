@@ -4,7 +4,8 @@ import { parseDate } from '~/utils/date';
 
 export const MAX_DAILY_ENTRIES = 5;
 
-type ItemType = 'word' | 'idiom' | 'phrasal_verb';
+export type ItemType = 'word' | 'idiom' | 'phrasal_verb';
+
 type VerbAspect = 'pf' | 'impf';
 
 export type PartOfSpeech =
@@ -16,7 +17,7 @@ export type PartOfSpeech =
   | 'phrase'
   | 'expression';
 
-type EntryMeaning = {
+export type EntryMeaning = {
     val: string;
     context: string;
 };
@@ -89,21 +90,29 @@ export async function getDailyEntries(number_of_words: number) {
             ...entry,
             audio_url,
         };
-  });
+    });
 }
 
-export async function getRecentEntries(number_of_words: number): Promise<RecentEntry[]> {
-    const { data, error } = await supabase.rpc('get_recent_entries', { 'target_limit': number_of_words });
+export async function getDifficultEntries(): Promise<Entry[]> {
+    const { data, error } = await supabase.rpc('get_difficult_entries');
 
     if (error) {
-        console.error('Error fetching recent entries:', error);
+        console.error('Error fetching difficult entries:', error);
         return [];
     }
 
-    return (data as any[]).map(entry => ({
-        ...entry,
-        created_at: parseDate(entry.created_at)
-    })) as RecentEntry[];
+    return (data as any[] ?? []).map((entry) => {
+        const audio_url = entry.audio_path
+            ? supabase.storage
+                .from('audio')
+                .getPublicUrl(`public/${entry.audio_path}`).data.publicUrl
+            : null;
+
+        return {
+            ...entry,
+            audio_url,
+        };
+    });
 }
 
 export async function updateCardReview(id: number, rating: ReviewRating) {

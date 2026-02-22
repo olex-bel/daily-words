@@ -51,7 +51,7 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
                         onClick={onRepeat}
                         className="
                             w-full flex items-center justify-center gap-2 py-4 uppercase
-                            bg-secondary text-secondary-ink hover:bg-secondary-dark
+                            bg-secondary text-secondary-ink hover:bg-secondary-hover
                             transition-all
                         "
                     >
