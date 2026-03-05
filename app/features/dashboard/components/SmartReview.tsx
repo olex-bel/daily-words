@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useAuthContext } from "~/hooks/useAuthContext";
 import Surface from "~/shared/components/ui/Surface";
 import LinkButton from "~/shared/components/ui/LinkButton";
 import ReviewMessage from "./ReviewMessage";
@@ -13,8 +12,7 @@ type SmartReviewProps = {
 
 export default function SmartReview({ stats }: SmartReviewProps) {
     const { t } = useTranslation();
-    const { profile } = useAuthContext();
-    const status = getReviewStatus(stats, profile);
+    const status = getReviewStatus(stats);
     const isLearningAllowed = status !== 'COMPLETED_TODAY' && status !== 'ALL_LEARNED';
 
     return (

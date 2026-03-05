@@ -3,7 +3,6 @@ import { parseDate, sameDay } from '~/utils/date';
 
 export type UserProfile = {
     name: string;
-    last_seen_at: string | null;
 };
 
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
@@ -20,16 +19,5 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
 
     return {
         name: data.name,
-        last_seen_at: data.last_seen_at,
     };
-}
-
-export function isActiveToday(profile: UserProfile) {
-    const lastSeenDate = parseDate(profile.last_seen_at);
-
-    if (!lastSeenDate) {
-        return false;
-    }
-
-    return sameDay(lastSeenDate, new Date());
 }

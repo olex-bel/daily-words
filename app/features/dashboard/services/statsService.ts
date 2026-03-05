@@ -1,6 +1,7 @@
 import supabase from "~/services/supabase";
 
 export type DashboardStats = {
+    v_session_started: boolean;
     total_system_words: number;
     total_stages: number;
     user_total_words: number;
