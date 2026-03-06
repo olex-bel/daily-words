@@ -196,32 +196,45 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION get_dashboard_stats()
 RETURNS TABLE (
-    v_session_started boolean,
+    session_started boolean,
     total_system_words bigint,
     user_total_words bigint,
     mastered_words bigint,
     total_stages bigint,
     in_learning bigint,
-    daily_task_total bigint,
-    new_today bigint
+    remaining_words bigint
 ) 
 LANGUAGE plpgsql
 AS $$
 DECLARE
+    current_user_id uuid := auth.uid();
     all_words_count bigint;
     v_timezone text;
     v_today date;
     v_session_started boolean;
+    v_remaining_words bigint;
 BEGIN
     SELECT count(*) INTO all_words_count FROM public.entries;
-    SELECT coalesce(p.timezone, 'UTC') INTO v_timezone FROM public.profiles WHERE user_id = auth.uid();
+    SELECT coalesce(timezone, 'UTC') INTO v_timezone FROM public.profiles WHERE user_id = current_user_id;
 
     v_today := (CURRENT_TIMESTAMP AT TIME ZONE v_timezone)::date;
 
     SELECT EXISTS (
       SELECT 1 FROM public.daily_sessions ds
-      WHERE ds.user_id = auth.uid() AND ds.session_date = v_today
+      WHERE ds.user_id = current_user_id AND ds.session_date = v_today
     ) INTO v_session_started;
+
+    IF v_session_started THEN
+      SELECT count(*) INTO v_remaining_words 
+      FROM public.daily_session_entries dse 
+      JOIN public.user_entries ue
+        ON ue.entry_id = dse.entry_id AND ue.user_id = dse.user_id
+      WHERE ue.user_id = current_user_id AND dse.session_date = v_today AND ue.due_at <= v_today;
+    ELSE
+      SELECT count(*) INTO v_remaining_words
+      FROM public.user_entries
+      WHERE user_id = current_user_id AND due_at <= v_today;
+    END IF;
 
     RETURN QUERY
     SELECT
@@ -231,11 +244,9 @@ BEGIN
         count(*) FILTER (WHERE stage >= 3) as mastered_words,
         coalesce(sum(stage), 0) as total_stages, 
         count(*) FILTER (WHERE stage < 5) as in_learning,
-        count(*) FILTER (WHERE due_at <= v_today) as daily_task_total,
-        count(*) FILTER (WHERE due_at <= v_today
-                          AND created_at = v_today) as new_today
+        v_remaining_words
     FROM public.user_entries
-    WHERE user_id = auth.uid();
+    WHERE user_id = current_user_id;
 END;
 $$;
 
