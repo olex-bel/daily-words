@@ -17,7 +17,7 @@ export default function ReviewMessage({ status, stats }: ReviewMessageProps) {
         case 'COMPLETED_TODAY':
             return <>{t('dashboard.reviewStatus.COMPLETED_TODAY.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.COMPLETED_TODAY.2')}</strong>.</>;
         case 'REVIEW_ONLY':
-            return <>{t('dashboard.reviewStatus.REVIEW_ONLY.1')} <strong>{t('dashboard.reviewStatus.REVIEW_ONLY.2', { total: stats.daily_task_total })}</strong>.</>;
+            return <>{t('dashboard.reviewStatus.REVIEW_ONLY.1')} <strong>{t('dashboard.reviewStatus.REVIEW_ONLY.2', { total: stats.remaining_words })}</strong>.</>;
         case 'START_NEW':
             return <>{t('dashboard.reviewStatus.START_NEW.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.START_NEW.2')}</strong>.</>;
         default:
