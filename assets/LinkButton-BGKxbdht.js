@@ -1,1 +1,0 @@
-import{p as e,A as o}from"./chunk-WWGJGFF6-C5hIiiDC.js";function r({to:t,className:n="",children:s}){return e.jsx(o,{to:t,className:`inline-block text-center py-2 rounded-md font-semibold transition-all active:scale-95 shadow-sm hover:brightness-90 ${n}`,children:s})}export{r as L};

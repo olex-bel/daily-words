@@ -1,0 +1,1 @@
+import{p as e}from"./chunk-WWGJGFF6-CRkKXnSw.js";function d({className:r,children:a}){return e.jsx("div",{className:`shadow-lg rounded-lg bg-surface ${r} dark:border dark:border-white/10 dark:shadow-none`,children:a})}export{d as S};
