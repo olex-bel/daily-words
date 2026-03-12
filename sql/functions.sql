@@ -48,12 +48,15 @@ BEGIN
         LIMIT needed_count;
   END IF;
 
-  INSERT INTO public.daily_session_entries (user_id, entry_id, session_date)
-    SELECT current_user_id, entry_id, v_today
-    FROM public.user_entries
+  WITH max_entries AS (
+    SELECT entry_id FROM public.user_entries
     WHERE user_id = current_user_id AND due_at <= v_today
     ORDER BY due_at ASC, stage ASC
-    LIMIT target_limit;
+    LIMIT target_limit
+  )
+  UPDATE public.user_entries ue SET session_date = v_today
+    FROM max_entries AS me
+    WHERE ue.user_id = current_user_id AND ue.entry_id = me.entry_id;
 END;
 $$;
 
@@ -94,10 +97,7 @@ BEGIN
       ue.stage,
       ex.text AS example,
       e.audio_path
-    FROM public.daily_session_entries dse
-      JOIN public.user_entries ue
-        ON ue.user_id = dse.user_id
-        AND ue.entry_id = dse.entry_id
+    FROM public.user_entries ue
       JOIN public.entries e ON ue.entry_id = e.id
       JOIN public.translations t ON e.id = t.entry_id
       LEFT JOIN LATERAL (
@@ -113,7 +113,7 @@ BEGIN
           LIMIT 1
       ) ex ON true
     WHERE ue.user_id = auth.uid() 
-          AND dse.session_date = v_today
+          AND ue.session_date = v_today
           AND ue.due_at <= v_today
           AND e.published = true
     LIMIT target_limit;
@@ -169,30 +169,52 @@ END;
 $$;
 
 CREATE OR REPLACE FUNCTION update_card_review(
-    p_entry_id bigint,
-    p_rating review_rating
+  p_entry_id bigint,
+  p_rating review_rating
 ) 
-RETURNS VOID AS $$
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  v_stage smallint;
+  v_interval_days int;
+  current_user_id uuid := auth.uid();
 BEGIN
-    UPDATE public.user_entries 
-    SET 
-        stage = CASE p_rating
-            WHEN 'unknown' THEN 0
-            WHEN 'hard'    THEN stage
-            WHEN 'know'    THEN stage + 1
-            ELSE stage
-        END,
-        
-        due_at = CASE p_rating
-            WHEN 'unknown' THEN CURRENT_DATE + INTERVAL '1 day'
-            WHEN 'hard'    THEN CURRENT_DATE + INTERVAL '2 days'
-            WHEN 'know'    THEN CURRENT_DATE + (LEAST(POWER(2, stage + 1)::INT, 365) || ' days')::INTERVAL
-        END,
+  SELECT stage INTO v_stage FROM public.user_entries
+  WHERE entry_id = p_entry_id AND user_id = current_user_id;
 
-        review_count = review_count + 1
-    WHERE entry_id = p_entry_id AND user_id = auth.uid();
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Entry not found for user %', current_user_id;
+  END IF;
+
+  v_stage := CASE p_rating
+    WHEN 'unknown' THEN GREATEST(v_stage - 2, 0)
+    WHEN 'hard'    THEN GREATEST(v_stage - 1, 0)
+    WHEN 'know' THEN
+      CASE
+        WHEN v_stage = 0 THEN 3
+        WHEN v_stage < 4 THEN LEAST(v_stage + 3, 8)
+        ELSE LEAST(v_stage + 1, 8)
+      END
+    ELSE v_stage
+  END;
+
+  v_interval_days := (
+    ARRAY[1,2,4,7,14,30,90,180,365]
+  )[LEAST(v_stage + 1, 9)];
+
+  IF v_stage >= 5 THEN
+    v_interval_days := round(v_interval_days * (0.9 + random() * 0.2))::int;
+  END IF;
+
+  UPDATE public.user_entries
+    SET
+      stage = v_stage,
+      due_at = CURRENT_DATE + v_interval_days,
+      review_count = review_count + 1
+    WHERE entry_id = p_entry_id AND user_id = current_user_id;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 CREATE OR REPLACE FUNCTION get_dashboard_stats()
 RETURNS TABLE (
@@ -226,10 +248,8 @@ BEGIN
 
     IF v_session_started THEN
       SELECT count(*) INTO v_remaining_words 
-      FROM public.daily_session_entries dse 
-      JOIN public.user_entries ue
-        ON ue.entry_id = dse.entry_id AND ue.user_id = dse.user_id
-      WHERE ue.user_id = current_user_id AND dse.session_date = v_today AND ue.due_at <= v_today;
+      FROM public.user_entries ue
+      WHERE ue.user_id = current_user_id AND ue.session_date = v_today AND ue.due_at <= v_today;
     ELSE
       SELECT count(*) INTO v_remaining_words
       FROM public.user_entries
@@ -241,7 +261,7 @@ BEGIN
         v_session_started,
         all_words_count,
         count(*) as user_total_words,
-        count(*) FILTER (WHERE stage >= 3) as mastered_words,
+        count(*) FILTER (WHERE stage >= 5) as mastered_words,
         coalesce(sum(stage), 0) as total_stages, 
         count(*) FILTER (WHERE stage < 5) as in_learning,
         v_remaining_words

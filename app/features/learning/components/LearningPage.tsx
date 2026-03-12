@@ -66,7 +66,7 @@ export default function LearningPage({ words, mode }: LearningPageProps) {
     return (
         <div className="relative flex flex-col h-full">
             <div className="flex items-center justify-between p-2 md:p-4">
-                <Link to="/dashboard" className="no-underline hover:underline">{t('learning.finishButton')}</Link>
+                <Link to="/dashboard" className="no-underline hover:underline">← {t('learning.finishButton')}</Link>
                 <div className="flex items-center gap-4">
                     <PorgressBar value={state.currentIndex + 1} max={total} className="w-24 md:w-40" />
                     {state.completed? (

@@ -102,7 +102,17 @@ body {
     75% { transform: rotate(15deg); }
   }
 
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0) rotate(0deg); 
+    }
+    50% { 
+      transform: translateY(-20px) rotate(2deg); 
+    }
+  }
+
   --animate-wave: wave 0.8s ease-in-out 4;
+  --animate-float: float 6s ease-in-out infinite;
 }
 
 .animate-zoom-in {

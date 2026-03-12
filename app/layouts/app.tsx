@@ -3,6 +3,7 @@ import { Outlet, redirect, useRevalidator } from "react-router"
 import supabase from "~/services/supabase"
 import { getUserProfile } from "~/services/profileService";
 import Logo from "~/shared/components/common/Logo";
+import UserMenu from "~/shared/components/common/UserMenu";
 import type { Session, AuthChangeEvent } from "@supabase/supabase-js";
 import type { UserProfile } from "~/services/profileService";
 import type { LoaderFunctionArgs } from "react-router";
@@ -60,8 +61,9 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
     return (
         <>
             <header className="bg-surface shadow-sm h-[50px] md:h-[70px] flex items-center">
-                <div className="w-[90%] max-w-5xl mx-auto flex items-center">
+                <div className="w-[90%] max-w-5xl mx-auto flex items-center justify-between">
                     <Logo />
+                    <UserMenu />
                 </div>
             </header>
 

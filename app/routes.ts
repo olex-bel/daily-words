@@ -9,5 +9,6 @@ export default [
         route("learning", "routes/learning.tsx"),
         route("dashboard", "routes/dashboard.tsx"),
         route("review", "routes/review.tsx"),
+        route("profile", "routes/profile.tsx"),
     ]),
 ] satisfies RouteConfig;

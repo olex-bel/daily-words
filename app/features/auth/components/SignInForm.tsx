@@ -1,6 +1,7 @@
 import { useFetcher, Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Surface from '~/shared/components/ui/Surface';
+import Button from "~/shared/components/ui/Button";
 
 export default function SignInForm() {
     const { t } = useTranslation();
@@ -16,7 +17,7 @@ export default function SignInForm() {
 
                 <div className={`overflow-hidden transition-all duration-200 ease-out ${errorMessage ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                     {errorMessage && (
-                        <div role="alert" className="p-3 rounded bg-red-100 text-red-800">
+                        <div role="alert" className="p-3 rounded bg-error text-error-ink">
                             {errorMessage}
                         </div>
                     )}
@@ -28,7 +29,7 @@ export default function SignInForm() {
                         type="email"
                         name="email"
                         required
-                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="bg-ink/5 border-transparent rounded-md p-2"
                     />
                 </label>
 
@@ -38,21 +39,21 @@ export default function SignInForm() {
                         type="password"
                         name="password"
                         required
-                        className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="bg-ink/5 border-transparent rounded-md p-2"
                     />
                 </label>
 
-                <button
+                <Button
                     type="submit"
-                    className="bg-primary text-white py-2 rounded-md font-semibold hover:scale-105 transition-transform"
+                    className="bg-primary text-primary-ink disabled:bg-disabled px-8 py-4 rounded-2xl shadow-md active:scale-95 transition-all"
                     disabled={isSubmitting}
                 >
                     {t('signin.submitButton')}
-                </button>
+                </Button>
 
                 <p className="text-sm text-ink-muted mt-2 text-center">
                     {t('signin.noAccount')}
-                    <Link to="/signup" className="text-primary font-semibold hover:underline ml-1">
+                    <Link to="/signup" className="text-ink font-semibold hover:underline ml-1">
                         {t('signin.signupLink')}
                     </Link>
                 </p>

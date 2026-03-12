@@ -16,10 +16,11 @@ export default function Toast({ children, onClose, type = 'error' }: ToastProps)
         return () => clearTimeout(timer);
     }, [onClose]);
 
-    const bgColor = type === 'error' ? 'bg-red-600' : 'bg-green-600';
+    const bgColor = type === 'error' ? 'bg-error' : 'bg-success';
+    const textColor  = type === 'error' ? 'text-error-ink' : 'text-success-ink';
 
     return (
-        <div className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 ${bgColor} text-white px-4 py-3 rounded-lg shadow-2xl flex items-center justify-between min-w-[280px]`}>
+        <div className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 ${bgColor} ${textColor} px-4 py-3 rounded-lg shadow-sm flex items-center justify-between min-w-[280px]`}>
             <div className="flex-grow text-sm font-medium">
                 {children}
             </div>

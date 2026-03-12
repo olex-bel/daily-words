@@ -1,14 +1,14 @@
 import supabase from './supabase';
-import { parseDate, sameDay } from '~/utils/date';
 
 export type UserProfile = {
     name: string;
+    timeZone: string;
 };
 
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
     const { data, error } = await supabase
         .from('profiles')
-        .select('name, last_seen_at')
+        .select('name, timezone')
         .eq('user_id', userId)
         .single();
 
@@ -19,5 +19,31 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
 
     return {
         name: data.name,
+        timeZone: data.timezone,
     };
+}
+
+export async function updateProfile(userId: string, profile: UserProfile) {
+    const { error } = await supabase
+        .from('profiles').update({
+            name: profile.name,
+            timezone: profile.timeZone,
+        })
+        .eq('user_id', userId);
+    
+    if (error) {
+        console.error('Error updating profile:', error);
+        throw new Error('Error updating profile.');
+    }
+}
+
+export async function updatePassword(newPassword: string) {
+    const { error } =  await supabase.auth.updateUser({
+        password: newPassword
+    });
+
+    if (error) {
+        console.error('Error updating password:', error);
+        throw new Error('Error updating password.');
+    }
 }

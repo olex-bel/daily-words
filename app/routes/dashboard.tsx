@@ -22,7 +22,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
     const { stats } = loaderData;
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500 pt-6">
+        <div className="space-y-8 pt-6">
             <title>{t('dashboard.meta.title')}</title>
             <meta name="description" content={t('dashboard.meta.description')}/>
             <meta name="keywords" content={t('dashboard.meta.keywords')} />
