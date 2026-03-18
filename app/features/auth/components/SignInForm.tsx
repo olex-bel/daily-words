@@ -2,38 +2,37 @@ import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Surface from '~/shared/components/ui/Surface';
 import Button from "~/shared/components/ui/Button";
-import { useActionForm } from '~/hooks/useActionForm';
+import { useFormActionState } from '~/hooks/useFormActionState';
 import FormField from '~/shared/components/ui/FormField';
 import GeneralFormError from '~/shared/components/ui/GeneralFormError';
 
 export default function SignInForm() {
     const { t } = useTranslation();
-    const fetcher = useActionForm();
-    const isSubmitting = fetcher.state === 'submitting';
+    const { fetcher, isSubmitting, clearError, fieldErrors, generalError }  = useFormActionState();
 
     return (
         <Surface className="w-full max-w-md p-6">
             <h1 className="text-2xl font-bold mb-4">{t('signin.title')}</h1>
 
             <fetcher.Form noValidate action="/signin" method="post" className="flex flex-col gap-4">
-                <GeneralFormError errorId={fetcher.generalError} />
+                <GeneralFormError errorId={generalError} />
                 
                 <FormField 
-                    label={t('signin.emailLabel')}
+                    label={t('form.label.email')}
                     type="email"
                     name="email"
                     required
-                    onClear={fetcher.clearError}
-                    errors={fetcher.fieldErrors.email}
+                    onClear={clearError}
+                    errors={fieldErrors.email}
                 />
                 
                 <FormField 
-                    label={t('signin.passwordLabel')}
+                    label={t('form.label.password')}
                     type="password"
                     name="password"
                     required
-                    onClear={fetcher.clearError}
-                    errors={fetcher.fieldErrors.password}
+                    onClear={clearError}
+                    errors={fieldErrors.password}
                 >
                     <Link to="/reset-password" className="text-primary text-xs hover:underline ml-1 outline-none focus-visible:ring-2 focus-visible:ring-primary">
                         {t('signin.forgotPassword')}

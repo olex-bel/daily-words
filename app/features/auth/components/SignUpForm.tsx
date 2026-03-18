@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { useActionForm } from '~/hooks/useActionForm';
+import { useFormActionState } from '~/hooks/useFormActionState';
 import Surface from '~/shared/components/ui/Surface';
 import Button from "~/shared/components/ui/Button";
 import FormField from '~/shared/components/ui/FormField';
@@ -10,8 +10,7 @@ import GeneralFormError from '~/shared/components/ui/GeneralFormError';
 
 export default function SignUpForm() {
     const { t } = useTranslation();
-    const fetcher = useActionForm();
-    const isSubmitting = fetcher.state === 'submitting';
+    const { fetcher, isSubmitting, clearError, fieldErrors, generalError }  = useFormActionState();
 
     if (fetcher.data?.status === "pending_confirmation") {
         return <ConfirmationPending />;
@@ -22,42 +21,42 @@ export default function SignUpForm() {
             <h1 className="text-2xl font-bold mb-4">{t('signup.title')}</h1>
 
             <fetcher.Form noValidate action="/signup" method="post" className="flex flex-col gap-4">
-                <GeneralFormError errorId={fetcher.generalError} />
+                <GeneralFormError errorId={generalError} />
 
                 <FormField 
                     name="name"
-                    label={t("signup.nameLabel")}
+                    label={t("form.label.name")}
                     type="text"
                     required
                     minLength={2}
-                    onClear={fetcher.clearError}
-                    errors={fetcher.fieldErrors.name}
+                    onClear={clearError}
+                    errors={fieldErrors.name}
                 />
                 <FormField 
                     name="email"
-                    label={t("signup.emailLabel")}
+                    label={t("form.label.email")}
                     type="email"
                     required
-                    onClear={fetcher.clearError}
-                    errors={fetcher.fieldErrors.email}
+                    onClear={clearError}
+                    errors={fieldErrors.email}
                 />
                 <FormField 
                     name="password"
-                    label={t("signup.passwordLabel")}
+                    label={t("form.label.password")}
                     type="password"
                     required
                     minLength={6}
                     maxLength={10}
-                    onClear={fetcher.clearError}
-                    errors={fetcher.fieldErrors.password}
+                    onClear={clearError}
+                    errors={fieldErrors.password}
                 />
                 <FormField 
                     name="confirmPassword"
-                    label={t("signup.confirmPasswordLabel")}
+                    label={t("form.label.confirmPassword")}
                     type="password"
                     required
-                    onClear={fetcher.clearError}
-                    errors={fetcher.fieldErrors.confirmPassword}
+                    onClear={clearError}
+                    errors={fieldErrors.confirmPassword}
                 />
 
                 <TimezoneSelect />

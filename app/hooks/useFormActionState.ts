@@ -8,7 +8,7 @@ interface ActionResponse {
   status?: string;
 }
 
-export function useActionForm<T extends ActionResponse>(key?: string) {
+export function useFormActionState<T extends ActionResponse>(key?: string) {
     const fetcher = useFetcher<T>({
         key: key,
     });
@@ -40,9 +40,10 @@ export function useActionForm<T extends ActionResponse>(key?: string) {
     }, []);
 
     return {
-        ...fetcher,
+        fetcher,
         fieldErrors,
         generalError,
         clearError,
+        isSubmitting: fetcher.state === "submitting",
     }
 }

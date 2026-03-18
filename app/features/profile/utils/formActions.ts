@@ -1,16 +1,16 @@
-import z, { success } from 'zod';
+import z from 'zod';
 import { updateProfile, updatePassword } from '~/services/profileService';
 
 const UpdateSettingsSchema = z.object({
-    name: z.string().min(2, { message: "profile.error.nameMinLength" }).max(10, { message: "profile.error.nameMaxLength" }),
-    timeZone: z.string().min(1, { message: "profile.error.timeZoneRequired" }),
+    name: z.string().min(2, { message: "form.error.nameMinLength" }).max(10, { message: "form.error.nameMaxLength" }),
+    timeZone: z.string().min(1, { message: "form.error.timeZoneRequired" }),
 });
 
 const ChangePasswordSchema = z.object({
-  newPassword: z.string().min(6, { message: "profile.error.passwordMinLength" }).max(10, { message: "profile.error.passwordMaxLength" }),
-  confirmNewPassword: z.string().min(1, { message: "profile.error.confirmRequired" }),
+  newPassword: z.string().min(6, { message: "form.error.passwordMinLength" }).max(10, { message: "form.error.passwordMaxLength" }),
+  confirmNewPassword: z.string().min(1, { message: "form.error.confirmRequired" }),
 }).refine((data) => data.newPassword === data.confirmNewPassword, {
-  message: "profile.error.passwordsDontMatch",
+  message: "form.error.passwordsDontMatch",
   path: ["confirmNewPassword"],
 });
 
@@ -26,7 +26,7 @@ export async function updatePorfileSettings(userId: string, formData: FormData) 
         return { 
             success: false, 
             errors: z.flattenError(result.error).fieldErrors,
-            errorId: "profile.error.validationError" 
+            errorId: "form.error.validationError" 
         };
     }
     const { name, timeZone } = result.data;
@@ -37,10 +37,10 @@ export async function updatePorfileSettings(userId: string, formData: FormData) 
             timeZone,
         });
     } catch (e) {
-        return { success: false,  errorId: "profile.error.updateError" }
+        return { success: false,  errorId: "form.error.updateError" }
     }
 
-    return { success: true, messageId: 'profile.updateSuccess' }
+    return { success: true, messageId: 'form.updateSuccess' }
 }
 
 export async function changePassword(formData: FormData) {
@@ -54,7 +54,7 @@ export async function changePassword(formData: FormData) {
         return { 
             success: false, 
             errors: z.flattenError(result.error).fieldErrors,
-            errorId: "profile.error.validationError" 
+            errorId: "form.error.validationError" 
         };
     }
 
@@ -66,5 +66,5 @@ export async function changePassword(formData: FormData) {
         return { success: false, errorId: 'profile.updateError' };
     }
 
-    return { success: true, messageId: 'profile.updateSuccess' };
+    return { success: true };
 }

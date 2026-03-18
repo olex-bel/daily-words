@@ -56,18 +56,10 @@
         },
         "title": "Увійти в DailyWords",
         "heading": "Вітаємо знову!",
-        "emailLabel": "Електронна пошта",
-        "passwordLabel": "Пароль",
         "submitButton": "Увійти",
         "noAccount": "Ще немає облікового запису?",
         "signupLink": "Зареєструватися",
-        "forgotPassword": "Забули пароль?",
-        "error": {
-            "loginError": "Неправильна електронна пошта або пароль.",
-            "validationError": "Будь ласка, перевірте правильність заповнення всіх полів",
-            "invalidEmail": "Некоректна пошта",
-            "passwordEmpty": "Заповніть пароль"
-        }
+        "forgotPassword": "Забули пароль?"
     },
     "signup": {
         "meta": {
@@ -76,26 +68,9 @@
             "keywords": "зареєструватися, DailyWords, вивчення словацької мови, онлайн, флеш-картки"
         },
         "title": "Зареєструватися в DailyWords",
-        "nameLabel": "Ім'я",
-        "emailLabel": "Електронна пошта",
-        "passwordLabel": "Пароль",
-        "confirmPasswordLabel": "Підтвердити пароль",
         "submitButton": "Зареєструватися",
         "account": "Вже є обліковий запис?",
-        "signinLink": "Увійти",
-        "error": {
-            "passwordsDontMatch": "Паролі не збігаються",
-            "validationError": "Будь ласка, перевірте правильність заповнення всіх полів",
-            "nameMinLength": "Мінімум 2 символи",
-            "nameMaxLength": "Максимум 10 символів",
-            "invalidEmail": "Некоректна пошта",
-            "passwordMinLength": "Мінімум 6 символів",
-            "passwordMaxLength": "Максимум 10 символів",
-            "confirmRequired": "Підтвердіть пароль",
-            "emailTaken": "Користувач вже існує",
-            "createUserError": "Не вдалося створити профіль. Спробуйте пізніше",
-            "timeZoneRequired": "Виберіть часовий пояс"
-        }
+        "signinLink": "Увійти"
     },
     "dashboard": {
         "meta": {
@@ -163,17 +138,8 @@
             "newPassword": "Новий пароль",
             "chagneNewPassword": "Підтвердити новий пароль"
         },
-        "error": {
-            "nameMinLength": "Мінімум 2 символи",
-            "nameMaxLength": "Максимум 10 символів",
-            "validationError": "Будь ласка, перевірте правильність заповнення всіх полів",
-            "updateError": "Не вдалося оновити профіль. Спробуйте пізніше",
-            "passwordsDontMatch": "Паролі не збігаються",
-            "passwordMinLength": "Мінімум 6 символів",
-            "passwordMaxLength": "Максимум 10 символів",
-            "confirmRequired": "Підтвердіть пароль"
-        },
         "updateSuccess": "Налаштування успішно збережено",
+        "updateError": "Не вдалося оновити профіль. Спробуйте пізніше",
         "passwordsDontMatch": "Паролі не збігаються",
         "passwordChanged": "Пароль успішно змінено",
         "backToDashboard": "До панелі керування"
@@ -183,6 +149,48 @@
             "title": "Відновлення пароля — DailyWords",
             "description": "Відновіть свій пароль для доступу до облікового запису DailyWords.",
             "keywords": "відновлення пароля, DailyWords, вивчення словацької мови, онлайн"
+        },
+        "title": "Відновлення пароля",
+        "description": "Введіть email, щоб отримати інструкції з відновлення.",
+        "emailLabel": "Електронна пошта",
+        "submitButton": "Змінити пароль",
+        "backToLogin": "На сторінку входа",
+        "success": {
+            "title": "Успіх",
+            "description": "Лист із інструкціями для скидання пароля надіслано успішно."
+        },
+        "resetError": "Не вдалося скинути пароль."
+    },
+    "setpassword":{
+        "meta": {
+             "title": "Встановлення нового пароля — DailyWords",
+            "description": "Встановіть новий пароль для доступу до свого облікового запису DailyWords.",
+            "keywords": "встановлення пароля, новий пароль, DailyWords, вивчення словацької мови, онлайн"
+        },
+        "title": "Встановлення нового пароля",
+        "submitButton": "Змінити пароль"
+    },
+    "form": {
+        "error": {
+            "nameMinLength": "Мінімум 2 символи",
+            "nameMaxLength": "Максимум 10 символів",
+            "validation": "Будь ласка, перевірте правильність заповнення всіх полів",
+            "passwordsDontMatch": "Паролі не збігаються",
+            "passwordMinLength": "Мінімум 6 символів",
+            "passwordMaxLength": "Максимум 10 символів",
+            "confirmRequired": "Підтвердіть пароль",
+            "invalidEmail": "Некоректна пошта",
+            "emailTaken": "Користувач вже існує",
+            "createUserError": "Не вдалося створити профіль. Спробуйте пізніше",
+            "timeZoneRequired": "Виберіть часовий пояс",
+            "loginError": "Неправильна електронна пошта або пароль.",
+            "passwordEmpty": "Заповніть пароль"
+        },
+        "label": {
+            "name": "Ім'я",
+            "email": "Електронна пошта",
+            "password": "Пароль",
+            "confirmPassword": "Підтвердити пароль"
         }
     },
     "error": {

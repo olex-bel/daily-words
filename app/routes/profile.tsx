@@ -2,7 +2,8 @@ import { redirect } from "react-router";
 import { useTranslation } from "react-i18next";
 import SettingsPage from "~/features/profile/components/SettingsPage";
 import supabase from "~/services/supabase";
-import { getUserProfile, updateProfile, updatePassword } from "~/services/profileService";
+import { getUserProfile } from "~/services/profileService";
+import { updatePorfileSettingsAction, changePasswordAction } from "~/features/profile/utils/actions";
 import type { UserProfile } from "~/services/profileService";
 import type { Route } from "./+types/profile";
 
@@ -22,7 +23,7 @@ export async function clientLoader() {
     return { profile };
 }
 
-export async function clientAction({ request, params }: Route.ClientActionArgs) {
+export async function clientAction({ request }: Route.ClientActionArgs) {
     const formData = await request.formData();
     const action = formData.get("action") as string;
     const { data: { session }, error } = await supabase.auth.getSession();
@@ -33,23 +34,11 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 
     try {
         if (action === "update-settings") {
-            await updateProfile(session.user.id, {
-                name: formData.get('name') as string,
-                timeZone: formData.get('timezone') as string,
-            });
-            return { success: true, messageId: 'profile.updateSuccess' };
+            return updatePorfileSettingsAction(session.user.id, formData);
         }
 
         if (action === "change-password") {
-            const newPassword = formData.get('new-password') as string;
-            const confirm = formData.get('confirm-new-password') as string;
-
-            if (newPassword !== confirm) {
-                return { success: false, errorId: 'profile.passwordsDontMatch' };
-            }
-
-            await updatePassword(newPassword);
-            return { success: true, messageId: 'profile.updateSuccess' };
+            return changePasswordAction(formData);
         }
 
         throw new Error(`Unknown action: ${action}`);

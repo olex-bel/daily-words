@@ -1,26 +1,19 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/signin";
 import { useTranslation } from "react-i18next";
-import i18n from "~/i18n";
-import supabase from "~/services/supabase";
 import ViewCenter from "~/shared/components/layout/ViewCenter";
 import SignInForm from "~/features/auth/components/SignInForm";
+import { signInAction } from "~/features/auth/utils/actions";
+import type { Route } from "./+types/signin";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const formData = await request.formData();
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const result = await signInAction(formData);
 
-    const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-    });
-
-    if (error) {
-        return { success: false, message: i18n.t("signin.errorMessage") };
+    if (result.success) {
+        return redirect("/dashboard");
     }
 
-    return redirect("/dashboard");
+    return result;
 }
 
 export default function SignIn() {

@@ -4,7 +4,7 @@ import Surface from "~/shared/components/ui/Surface";
 import Button from "~/shared/components/ui/Button";
 import FormField from "~/shared/components/ui/FormField";
 import TimezoneSelect from '~/shared/components/ui/TimezoneSelect';
-import { useActionForm } from "~/hooks/useActionForm";
+import { useFormActionState } from "~/hooks/useFormActionState";
 import type { UserProfile } from "~/services/profileService";
 
 type ProfileSettingsProps = {
@@ -12,7 +12,7 @@ type ProfileSettingsProps = {
 };
 
 export default function ProfileSettingsForm({ profile }: ProfileSettingsProps) {
-    const fetcher = useActionForm("profile-form");
+    const { fetcher, isSubmitting, clearError, fieldErrors }  = useFormActionState("profile-form");
     const { t } = useTranslation();
 
     return (
@@ -25,8 +25,8 @@ export default function ProfileSettingsForm({ profile }: ProfileSettingsProps) {
                     label={t("profile.form.name")}
                     defaultValue={profile.name}
                     required
-                    onClear={fetcher.clearError}
-                    errors={fetcher.fieldErrors.name}
+                    onClear={clearError}
+                    errors={fieldErrors.name}
                 />
 
                 <TimezoneSelect defaultValue={profile.timeZone} />
@@ -35,7 +35,7 @@ export default function ProfileSettingsForm({ profile }: ProfileSettingsProps) {
                     type="submit"
                     name="action" 
                     value="update-settings" 
-                    disabled={fetcher.state === "submitting"}
+                    disabled={isSubmitting}
                     className="
                         w-fit bg-primary text-primary-ink disabled:bg-disabled px-8 py-4 
                         rounded-2xl shadow-md active:scale-95 transition-all

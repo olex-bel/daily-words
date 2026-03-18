@@ -1,13 +1,10 @@
-import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Surface from "~/shared/components/ui/Surface";
-import Button from "~/shared/components/ui/Button";
+import LinkButton from "~/shared/components/ui/LinkButton";
 import { RiMailUnreadLine } from "react-icons/ri";
 
 export default function ConfirmationPending() {
     const { t } = useTranslation();
-    const navigate = useNavigate();
-    const handleClick = () => navigate("/signin");
 
     return (
         <Surface className="w-full max-w-md p-8 text-center animate-in fade-in zoom-in duration-300">
@@ -16,9 +13,15 @@ export default function ConfirmationPending() {
             </div>
             <h2 className="text-2xl font-bold mb-2">{t('signup.success.title')}</h2>
             <p className="text-ink-muted mb-6">{t('signup.success.description')}</p>
-            <Button onClick={handleClick}>
+            <LinkButton 
+                to="/signin"
+                className="
+                    bg-primary text-primary-ink
+                    outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+                "
+            >
                 {t('signup.success.backButton')}
-            </Button>
+            </LinkButton>
         </Surface>
     );
 }

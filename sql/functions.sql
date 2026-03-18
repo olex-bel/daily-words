@@ -296,3 +296,31 @@ BEGIN
     LIMIT target_limit;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION validate_timezone()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF NEW.timezone IS NOT NULL AND NOT EXISTS (
+        SELECT 1 
+        FROM pg_timezone_names 
+        WHERE name = NEW.timezone
+    ) THEN
+        RAISE EXCEPTION 'Invalid timezone: %', NEW.timezone;
+    END IF;
+
+    RETURN NEW;
+END;
+
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY definer SET search_path = ''
+AS $$
+BEGIN
+  INSERT INTO public.profiles (user_id, name, target_language_code, timezone)
+  VALUES (NEW.id, new.raw_user_meta_data ->> 'name', 'uk', NEW.raw_user_meta_data ->> 'timezone');
+  RETURN NEW;
+end;
+$$;

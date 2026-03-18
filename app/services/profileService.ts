@@ -31,10 +31,7 @@ export async function updateProfile(userId: string, profile: UserProfile) {
         })
         .eq('user_id', userId);
     
-    if (error) {
-        console.error('Error updating profile:', error);
-        throw new Error('Error updating profile.');
-    }
+        return { error };
 }
 
 export async function updatePassword(newPassword: string) {
@@ -42,8 +39,19 @@ export async function updatePassword(newPassword: string) {
         password: newPassword
     });
 
-    if (error) {
-        console.error('Error updating password:', error);
-        throw new Error('Error updating password.');
-    }
+    return { error };
+}
+
+export async function resetPasswordForEmail(email:string) {
+    const {  error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}set-password`,
+    })
+
+    return { error };
+}
+
+export async function setNewPassword(password: string) {
+    const { error } = await supabase.auth.updateUser({ password })
+
+    return { error };
 }

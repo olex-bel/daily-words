@@ -1,6 +1,5 @@
 
 import supabase from "./supabase";
-import { parseDate } from '~/utils/date';
 
 export const MAX_DAILY_ENTRIES = 5;
 
