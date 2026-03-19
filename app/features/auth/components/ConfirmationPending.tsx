@@ -7,16 +7,17 @@ export default function ConfirmationPending() {
     const { t } = useTranslation();
 
     return (
-        <Surface className="w-full max-w-md p-8 text-center animate-in fade-in zoom-in duration-300">
-            <div className="flex justify-center mb-4 text-primary">
+        <Surface className="px-6 py-8 max-w-xs md:max-w-md flex flex-col items-center gap-4">
+            <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center">
                 <RiMailUnreadLine />
             </div>
             <h2 className="text-2xl font-bold mb-2">{t('signup.success.title')}</h2>
-            <p className="text-ink-muted mb-6">{t('signup.success.description')}</p>
+            <p className="text-ink-muted mb-6 text-lg text-ink-muted leading-relaxed">{t('signup.success.description')}</p>
             <LinkButton 
                 to="/signin"
                 className="
-                    bg-primary text-primary-ink
+                    bg-primary text-primary-ink disabled:bg-disabled px-8 py-4 
+                    rounded-md shadow-md active:scale-95 transition-all
                     outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
                 "
             >

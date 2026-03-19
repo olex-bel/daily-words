@@ -16,18 +16,20 @@ export function useFormActionState<T extends ActionResponse>(key?: string) {
     const [generalError, setGeneralError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (fetcher.state === "submitting") {
+            setFieldErrors({});
+            setGeneralError(null);
+        }
+    }, [fetcher.state]);
+
+    useEffect(() => {
         if (fetcher.data) {
             const data = fetcher.data;
 
             if (data.errorId) { setGeneralError(data.errorId); }
             if (data.errors) { setFieldErrors(data.errors); }
         }
-
-        if (fetcher.state === "submitting") {
-            setFieldErrors({});
-            setGeneralError(null);
-        }
-    }, [fetcher.data, fetcher.state]);
+    }, [fetcher.data]);
 
     const clearError = useCallback((name: string) => {
         setGeneralError(null);

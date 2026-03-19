@@ -51,15 +51,16 @@ export default function LearningPage({ words, mode }: LearningPageProps) {
         completed: false,
     });
     const total = words.length;
+    const isLast = state.currentIndex + 1 >= total;
 
     const handleAnswer= async (id: number, rating: Answer) => {
         if (mode === 'review') {
-            dispatch({ type: 'NEXT', payload: { isLast: state.currentIndex + 1 >= total } });
+            dispatch({ type: 'NEXT', payload: { isLast } });
             return;
         }
 
         submitRating(id, rating, () => {
-            dispatch({ type: 'ANSWER', payload: { answer: rating, isLast: state.currentIndex + 1 >= total } });
+            dispatch({ type: 'ANSWER', payload: { answer: rating, isLast } });
         });
     }
 
@@ -84,6 +85,7 @@ export default function LearningPage({ words, mode }: LearningPageProps) {
                     <LearningSession
                         mode={mode}
                         isPending={isPending}
+                        isLast={isLast}
                         entry={words[state.currentIndex]}
                         onAnswer={handleAnswer}
                     />
@@ -93,7 +95,7 @@ export default function LearningPage({ words, mode }: LearningPageProps) {
                             <LearningSummary
                                 total={total}
                                 results={state}
-                                onRepeat={() => {}}
+                                onRepeat={() => navigate('/review', { replace: true })}
                                 onExit={() => navigate('/dashboard', { replace: true })}
                             />
                         ) : (

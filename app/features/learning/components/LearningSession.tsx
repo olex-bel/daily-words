@@ -7,6 +7,7 @@ import type { Entry } from "../../../services/entryService";
 
 type LearningSessionProps = {
     isPending?: boolean;
+    isLast: boolean;
     mode: 'review' | 'learn';
     entry: Entry;
     onAnswer: (id: number, answer: Answer) => void;
@@ -17,6 +18,7 @@ export default function LearningSession({
     entry,
     onAnswer,
     isPending,
+    isLast,
 }: LearningSessionProps) {
     const { t } = useTranslation();
 
@@ -27,9 +29,10 @@ export default function LearningSession({
                 <div className="mt-8 w-full max-w-sm px-4">
                     <Button 
                         onClick={() => onAnswer(entry.id, 'know')} 
+                        disabled={isPending}
                         className="w-full py-4 bg-primary text-primary-ink hover:bg-primary-hover transition-colors dark:border-2 dark:border-primary dark:bg-transparent dark:text-primary dark:hover:bg-primary-hover dark:hover:text-primary-ink"
                     >
-                        {t('review.nextButton')} 
+                        {isLast? t('review.finishButton') : t('review.nextButton')} 
                     </Button>
                 </div>
             )} 

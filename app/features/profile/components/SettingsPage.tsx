@@ -40,7 +40,7 @@ export default function SettingsPage({ profile }: SettingsPageProps) {
                     type={fetcher.data.success? "success" : "error"}
                 >
                     {fetcher.data.success 
-                        ? t(fetcher.data.messageId || 'profile.updateSuccess') 
+                        ? t('profile.updateSuccess') 
                         : t(fetcher.data.errorId || 'profile.updateError')
                     }
                 </Toast>
