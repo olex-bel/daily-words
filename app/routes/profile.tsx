@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import SettingsPage from "~/features/profile/components/SettingsPage";
 import supabase from "~/services/supabase";
 import { getUserProfile } from "~/services/profileService";
-import { updatePorfileSettingsAction, changePasswordAction } from "~/features/profile/utils/actions";
+import { updatePorfileSettingsAction, changePasswordAction, deleteAction } from "~/features/profile/utils/actions";
 import type { UserProfile } from "~/services/profileService";
 import type { Route } from "./+types/profile";
 
@@ -40,6 +40,17 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
         if (action === "change-password") {
             return changePasswordAction(formData);
         }
+
+        if (action === "delete-account") {
+            const result = await deleteAction();
+
+            if (result.success) {
+                return redirect("/");
+            }
+
+            return result;
+        }
+        
 
         throw new Error(`Unknown action: ${action}`);
     } catch (e) {

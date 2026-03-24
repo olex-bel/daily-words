@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Outlet, redirect, useRevalidator } from "react-router"
+import { useTranslation } from "react-i18next";
 import supabase from "~/services/supabase"
 import { getUserProfile } from "~/services/profileService";
 import Logo from "~/shared/components/common/Logo";
@@ -43,6 +44,7 @@ const onAuthStateChange = (callback: (event : AuthChangeEvent) => void) => {
 export default function AppLayout({ loaderData }: Route.ComponentProps) {
     const revalidator = useRevalidator();
     const { profile } = loaderData;
+    const { t } = useTranslation();
 
     useEffect(() => {
         const { data } = onAuthStateChange((event) => {
@@ -71,8 +73,10 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
                 <Outlet context={ { profile } satisfies AuthOutletContext }/>
             </main>
 
-            <footer className="text-center py-2 text-sm text-ink-muted">
-                © 2026 DailyWords
+            <footer className="text-center py-2 text-sm text-ink-muted flex flex-col md:flex-row md:justify-center">
+                <span className="order- md:order-2">© 2026 DailyWords</span>
+                <a className="mx-2 underline" target="_blank" rel="noopener noreferrer" href="/privacy-policy.ua.html">{t('global.privacy')}</a>
+                <a className="mx-2 underline" target="_blank" rel="noopener noreferrer" href="/terms-and-conditions.ua.html">{t('global.terms')}</a>
             </footer>
         </>
     )

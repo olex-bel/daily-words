@@ -1,6 +1,6 @@
-import { runAction } from "~/utils/formLib";
+import { runAction, runService } from "~/utils/formLib";
 import { UpdateSettingsSchema, NewPasswordSchema } from "~/schemas";
-import { updateProfile, updatePassword } from "~/services/profileService";
+import { updateProfile, updatePassword, deleteAccount } from "~/services/profileService";
 
 export async function updatePorfileSettingsAction(userId: string, formData: FormData) {
     return runAction({
@@ -28,4 +28,10 @@ export async function changePasswordAction(formData: FormData) {
             defaultErrorId: "profile.updateError",
         }
     });
+}
+
+export async function deleteAction() {
+    return runService(
+        async () => deleteAccount()
+    )
 }

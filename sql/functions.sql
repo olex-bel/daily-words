@@ -312,6 +312,7 @@ BEGIN
 
     RETURN NEW;
 END;
+$$;
 
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER
@@ -322,5 +323,15 @@ BEGIN
   INSERT INTO public.profiles (user_id, name, target_language_code, timezone)
   VALUES (NEW.id, new.raw_user_meta_data ->> 'name', 'uk', NEW.raw_user_meta_data ->> 'timezone');
   RETURN NEW;
-end;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.delete_user()
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY definer SET search_path = ''
+AS $$
+BEGIN
+  DELETE FROM auth.users WHERE id = auth.uid();
+END;
 $$;

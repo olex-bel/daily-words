@@ -4,6 +4,7 @@ import { useFormActionState } from '~/hooks/useFormActionState';
 import Surface from '~/shared/components/ui/Surface';
 import Button from "~/shared/components/ui/Button";
 import FormField from '~/shared/components/ui/FormField';
+import CheckboxField from '~/shared/components/ui/CheckboxField';
 import TimezoneSelect from '~/shared/components/ui/TimezoneSelect';
 import ConfirmationPending from './ConfirmationPending';
 import GeneralFormError from '~/shared/components/ui/GeneralFormError';
@@ -61,6 +62,22 @@ export default function SignUpForm() {
 
                 <TimezoneSelect />
                 
+                <CheckboxField 
+                    name="agreement"
+                    type='checkbox' 
+                    required
+                    onClear={clearError}
+                    errors={fieldErrors.agreement}
+                    label={
+                        <span>
+                            {t('signup.agreement')}
+                            <a className="mx-2 underline" target="_blank" rel="noopener noreferrer" href="/privacy-policy.ua.html">{t('signup.privacy')}</a>
+                            {t('signup.and')}
+                            <a className="mx-2 underline" target="_blank" rel="noopener noreferrer" href="/terms-and-conditions.ua.html">{t('signup.terms')}</a>
+                        </span>
+                    }
+                />
+
                 <Button
                     type="submit"
                     className="

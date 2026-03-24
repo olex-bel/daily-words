@@ -28,6 +28,9 @@ export const SignUpSchema = z.object({
   password: z.string().min(6, { message: "form.error.passwordMinLength" }).max(10, { message: "form.error.passwordMaxLength" }),
   confirmPassword: z.string().min(1, { message: "form.error.confirmRequired" }),
   timeZone: z.string().min(1, { message: "form.error.timeZoneRequired" }),
+  agreement: z.any().refine((val) => val === "on", {
+    message: "form.error.checkboxRequired",
+  }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "form.error.passwordsDontMatch",
   path: ["confirmPassword"],

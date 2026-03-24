@@ -28,7 +28,10 @@ export default function FormField({ label, name, errors, children, className  = 
                     ${className}
                     `
                 }
-                onChange={(e) => onClear(name)}
+                onChange={(e) => {
+                    onClear(name);
+                    if (args.onChange) args.onChange(e);
+                }}
             />
             {children}
             {hasErrors && (

@@ -55,3 +55,13 @@ export async function setNewPassword(password: string) {
 
     return { error };
 }
+
+export async function deleteAccount() {
+    const { error } = await supabase.rpc("delete_user");
+
+    if (!error) {
+        await supabase.auth.signOut();
+    }
+
+    return { error };
+}
