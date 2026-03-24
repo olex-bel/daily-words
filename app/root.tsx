@@ -46,6 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="h-full min-h-dvh grid grid-rows-[auto_1fr_auto]">
         {children}
+        <div id="modal"></div>
         <ScrollRestoration />
         <Scripts />
       </body>

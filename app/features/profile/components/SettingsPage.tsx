@@ -3,6 +3,7 @@ import { useFetcher, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import ProfileSettingsForm from "~/features/profile/components/ProfileSettingsForm";
 import PasswordChangeForm from "~/features/profile/components/PasswordChangeForm";
+import DeleteAccountSection from "./DeleteAccountSection";
 import Toast from "~/shared/components/ui/Toast";
 import type { UserProfile } from "~/services/profileService";
 
@@ -31,6 +32,7 @@ export default function SettingsPage({ profile }: SettingsPageProps) {
             <div className="space-y-8 pt-6 max-w-2xl mx-auto flex flex-col gap-4">
                 <ProfileSettingsForm profile={profile} />
                 <PasswordChangeForm />
+                <DeleteAccountSection />
             </div>
                     
             {showToast && fetcher.data && (

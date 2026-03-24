@@ -20,6 +20,23 @@ type RunActionProps<T, R, E> = {
     }
 }
 
+export async function runService<R, E = any>(
+    serviceFn: () => Promise<{ data?: R; error?: E }>,
+    options?: { defaultErrorId?: string }
+): Promise<ActionResponse<R, E>> {
+    try {
+        const { error, data } = await serviceFn();
+
+        if (error) {
+            return { success: false, errorId: options?.defaultErrorId || "form.error.generic", error: error };    
+        }
+
+        return { success: true, data };
+    } catch (e) {
+        return { success: false, errorId: options?.defaultErrorId || "form.error.generic" };
+    }
+}
+
 export async function runAction<T, R, E>({
     formData,
     schema,
@@ -38,15 +55,8 @@ export async function runAction<T, R, E>({
         };
     }
 
-    try {
-        const { error, data } = await serviceFn(result.data);
-
-        if (error) {
-            return { success: false, errorId: options?.defaultErrorId || "form.error.generic", error: error };    
-        }
-
-        return { success: true, data };
-    } catch (e) {
-        return { success: false, errorId: options?.defaultErrorId || "form.error.generic" };
-    }
+    return runService(
+        async () => serviceFn(result.data),
+        options
+    );
 }

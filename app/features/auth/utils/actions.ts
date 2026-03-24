@@ -9,7 +9,7 @@ export async function resetPasswordFromEmailAction(formData: FormData) {
         schema: ResetPasswordSchema,
         serviceFn: (data) => resetPasswordForEmail(data.email),
         options: {
-            "defaultErrorId": "resetpassword.resetError",
+            defaultErrorId: "resetpassword.resetError",
         }
     });
 };
@@ -20,7 +20,7 @@ export async function setPasswordAction(formData: FormData) {
         schema: NewPasswordSchema,
         serviceFn: (data) => setNewPassword(data.password),
         options: {
-            "defaultErrorId": "setpassword.resetError",
+            defaultErrorId: "setpassword.resetError",
         }
     });
 }
@@ -29,7 +29,10 @@ export async function signInAction(formData: FormData) {
     return runAction({
         formData,
         schema: SignInSchema,
-        serviceFn: (data) => signIn(data.email, data.password), 
+        serviceFn: (data) => signIn(data.email, data.password),
+        options: {
+            defaultErrorId: "signin.loginError",
+        },
     });
 }
 

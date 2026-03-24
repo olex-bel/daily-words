@@ -28,14 +28,20 @@ export default function SmartReview({ stats }: SmartReviewProps) {
                 {isLearningAllowed ? (
                     <LinkButton 
                         to="/learning" 
-                        className="bg-primary text-primary-ink px-8 py-4 rounded-2xl shadow-md active:scale-95 transition-all"
+                        className="
+                            bg-primary text-primary-ink px-8 py-4 rounded-2xl shadow-md active:scale-95 transition-all
+                            outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+                        "
                     >
                         {t('dashboard.startLearning')}
                     </LinkButton>
                 ) : (
                     <LinkButton 
                         to="/review" 
-                        className="bg-primary text-primary-ink px-8 py-4 rounded-2xl shadow-md active:scale-95 transition-all"
+                        className="
+                            bg-primary text-primary-ink px-8 py-4 rounded-2xl shadow-md active:scale-95 transition-all
+                            outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+                        "
                     >
                         {t('dashboard.startReview')}
                     </LinkButton>
