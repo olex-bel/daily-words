@@ -1,4 +1,4 @@
-import { type RouteConfig, index, layout, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, layout, route, prefix } from "@react-router/dev/routes";
 
 export default [
     layout("./layouts/public.tsx", [
@@ -10,6 +10,7 @@ export default [
     layout("./layouts/app.tsx", { id: 'app '}, [
         route("learning", "routes/learning.tsx"),
         route("dashboard", "routes/dashboard.tsx"),
+        route("quiz", "routes/quiz.tsx"),
         route("review", "routes/review.tsx"),
         route("profile", "routes/profile.tsx"),
         route("set-password", "routes/setpassword.tsx"),

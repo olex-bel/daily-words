@@ -37,16 +37,18 @@
         "hardButton": "Важко",
         "unknownButton": "Не знаю",
         "summary": {
-            "title": "Чудова робота!",
-            "message": "Сесію завершено",
             "know": "Знаю",
             "hard": "Важко",
-            "dontKnow": "Не знаю",
-            "repeatButton": "ПОвторити складні",
-            "exitButton": "Вийти з навчання",
-            "totalCards": "Всього: {{total}} карток"
+            "dontKnow": "Не знаю"
         },
         "audioTitle": "Прослухати вимову"
+    },
+    "summary": {
+        "title": "Чудова робота!",
+        "message": "Сесію завершено",
+        "repeatButton": "Повторити складні",
+        "exitButton": "Вийти з навчання",
+        "totalCards": "Всього: {{total}} карток"
     },
     "signin": {
         "meta": {
@@ -129,6 +131,26 @@
         "finishButton": "Завершити",
         "completedTitle": "Чудова робота!",
         "completedMessage": "Ви закріпили всі складні слова на сьогодні."
+    },
+    "quiz": {
+        "meta": {
+            "title": "Квіз",
+            "description": "Перевірте свої знання словацької мови в інтерактивному квізі DailyWords. Відповідайте на запитання та покращуйте свій словниковий запас.",
+            "keywords": "квіз, словацька мова, тест, DailyWords, флеш-картки, перевірка знань"
+        },
+        "subtitle": "Перевірте свій прогрес",
+        "questionLabel": "Питання",
+        "result": {
+            "correct": "Правильно!",
+            "incorrect": "Неправильно"
+        },
+        "summary": {
+            "correct": "Правильні",
+            "incorrect": "Неправильні"
+        },
+        "nextButton": "Наступне слово",
+        "finishButton": "Завершити",
+        "anwsersLabel": "Варіанти відповідей"
     },
     "profile": {
         "meta": {

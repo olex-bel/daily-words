@@ -38,7 +38,7 @@ export default function ProfileSettingsForm({ profile }: ProfileSettingsProps) {
                     disabled={isSubmitting}
                     className="
                         w-full bg-primary text-primary-ink disabled:bg-disabled px-8 py-4 
-                        rounded-2xl shadow-md active:scale-95 transition-all
+                        rounded-2xl shadow-md active:scale-95 transition-all font-semibold
                         outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
                     "
                 >

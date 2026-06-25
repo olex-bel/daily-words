@@ -38,7 +38,7 @@ export default function PasswordChangeForm() {
                     value="change-password"
                     disabled={isSubmitting}
                     className="
-                        w-full bg-primary text-primary-ink disabled:bg-disabled px-8 py-4 
+                        w-full bg-primary text-primary-ink disabled:bg-disabled px-8 py-4 font-semibold
                         rounded-2xl shadow-md active:scale-95 transition-all
                         outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
                     "

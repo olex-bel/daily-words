@@ -236,6 +236,12 @@ DECLARE
     v_session_started boolean;
     v_remaining_words bigint;
 BEGIN
+    IF current_user_id IS NULL THEN
+      RAISE EXCEPTION 'User must be authenticated' 
+          USING ERRCODE = '42501',
+                HINT = 'Check if your Supabase client has a valid session.';
+    END IF;
+
     SELECT count(*) INTO all_words_count FROM public.entries;
     SELECT coalesce(timezone, 'UTC') INTO v_timezone FROM public.profiles WHERE user_id = current_user_id;
 
@@ -333,5 +339,72 @@ SECURITY definer SET search_path = ''
 AS $$
 BEGIN
   DELETE FROM auth.users WHERE id = auth.uid();
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION get_words_for_quiz()
+RETURNS TABLE (
+  id bigint,
+  content text,
+  meanings jsonb
+) LANGUAGE plpgsql
+AS $$
+DECLARE
+  current_user_id uuid := auth.uid();
+BEGIN
+  IF current_user_id IS NULL THEN
+    RAISE EXCEPTION 'User must be authenticated' 
+        USING ERRCODE = '42501',
+              HINT = 'Check if your Supabase client has a valid session.';
+  END IF;
+
+  RETURN QUERY 
+    WITH entries_to_check AS (
+      SELECT entry_id FROM user_entries 
+      WHERE user_id = current_user_id
+      ORDER BY session_date ASC
+      LIMIT 5
+    )
+    SELECT ec.entry_id, e.content, t.meanings FROM entries_to_check ec
+    LEFT JOIN entries e ON ec.entry_id = e.id
+    LEFT JOIN public.translations t ON ec.entry_id = t.entry_id;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION get_distractors(target_id bigint, target_limit INT)
+RETURNS TABLE (
+  id bigint, 
+  content text
+) LANGUAGE plpgsql AS $$
+DECLARE
+  target_pos text;
+  target_type public.entry_type;
+BEGIN
+
+  IF target_limit > 10 OR target_limit < 3 THEN
+    RAISE 'target_limit values are outside the range --> %', target_limit
+      USING HINT = 'Please pass the value between 3 and 10';
+  END IF;
+  
+  SELECT e.grammar->>'pos', e.type INTO target_pos, target_type
+  FROM entries e WHERE e.id = target_id;
+
+  RETURN QUERY
+    WITH same_type AS (
+      SELECT e.id, e.content FROM entries e
+      WHERE e.grammar->>'pos' = target_pos AND e.id != target_id
+      ORDER BY RANDOM()
+      LIMIT target_limit
+    ),
+    other_type AS (
+      SELECT e.id, e.content FROM entries e
+      WHERE e.type = target_type AND e.id != target_id AND e.id NOT IN (SELECT st.id FROM same_type st)
+      ORDER BY RANDOM()
+      LIMIT 3
+    )
+    SELECT st.id, st.content FROM same_type st
+    UNION ALL
+    SELECT ot.id, ot.content FROM other_type ot
+    LIMIT target_limit;
 END;
 $$;

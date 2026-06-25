@@ -30,7 +30,7 @@ export default function LearningSession({
                     <Button 
                         onClick={() => onAnswer(entry.id, 'know')} 
                         disabled={isPending}
-                        className="w-full py-4 bg-primary text-primary-ink hover:bg-primary-hover transition-colors dark:border-2 dark:border-primary dark:bg-transparent dark:text-primary dark:hover:bg-primary-hover dark:hover:text-primary-ink"
+                        className="w-full py-4 bg-primary font-semibold text-primary-ink hover:bg-primary-hover transition-colors dark:border-2 dark:border-primary dark:bg-transparent dark:text-primary dark:hover:bg-primary-hover dark:hover:text-primary-ink"
                     >
                         {isLast? t('review.finishButton') : t('review.nextButton')} 
                     </Button>

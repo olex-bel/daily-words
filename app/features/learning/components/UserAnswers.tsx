@@ -14,7 +14,7 @@ export default function UserAnswers({ entryId, onAnswer, isPending }: UserAnswer
     return (
         <div className="grid grid-flow-col auto-cols-fr gap-4 mt-6 md:mt-8 text-xs md:text-sm">
             <Button 
-                className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-error text-error-dark transition-all active:scale-95 px-4 py-2" 
+                className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-error text-error-dark transition-all active:scale-95 px-4 py-2 font-semibold" 
                 onClick={() => onAnswer(entryId, 'unknown')}
                 icon={<RiCloseFill />}
                 disabled={isPending}
@@ -23,7 +23,7 @@ export default function UserAnswers({ entryId, onAnswer, isPending }: UserAnswer
             </Button>
 
             <Button 
-                className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-warning text-warning-dark transition-all active:scale-95 px-4 py-2" 
+                className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-warning text-warning-dark transition-all active:scale-95 px-4 py-2 font-semibold" 
                 onClick={() => onAnswer(entryId, 'hard')}
                 icon={<RiErrorWarningLine />}
                 disabled={isPending}
@@ -32,7 +32,7 @@ export default function UserAnswers({ entryId, onAnswer, isPending }: UserAnswer
             </Button>
 
             <Button 
-                className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-success text-success-dark transition-all active:scale-95 px-4 py-2" 
+                className="bg-surface hover:bg-surface-hover shadow-md shadow-line border-1 border-success text-success-dark transition-all active:scale-95 px-4 py-2 font-semibold" 
                 onClick={() => onAnswer(entryId, 'know')}
                 icon={<RiCheckFill />}
                 disabled={isPending}

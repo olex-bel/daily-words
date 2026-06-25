@@ -15,7 +15,7 @@ export default function DeleteAccountSection() {
                 className="
                     w-full bg-surface hover:bg-surface-hover disabled:bg-disabled shadow-md shadow-line 
                     border-1 border-line text-ink transition-all active:scale-95 px-8 py-4 
-                    hover:text-error
+                    hover:text-error font-semibold
                     outline-none focus-visible:ring-2 focus-visible:ring-error focus-visible:ring-offset-2
                 "
                 onClick={() => deleteDialogRef.current?.showModal()}

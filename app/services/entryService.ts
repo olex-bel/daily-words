@@ -69,6 +69,17 @@ export type Entry = {
     audio_url: string | null;
 };
 
+export type QuizEntry = {
+    id: number;
+    content: string;
+    meanings: EntryMeaning[];
+};
+
+export type Distractor = {
+    id: number;
+    content: string;
+};
+
 export type ReviewRating = 'unknown' | 'hard' | 'know';
 
 export async function getDailyEntries(number_of_words: number) {
@@ -121,4 +132,33 @@ export async function updateCardReview(id: number, rating: ReviewRating) {
         console.error('Error update entre rating:', error);
         throw error;
     }
+}
+
+export async function getWordsForQuiz(): Promise<QuizEntry[]> {
+    const { data, error } = await supabase.rpc('get_words_for_quiz');
+
+    if (error) {
+        console.error('Error fetching quiz words:', error);
+        return [];
+    }
+
+    return (data as any[] ?? []).map((entry) => ({
+        id: entry.id,
+        content: entry.content,
+        meanings: entry.meanings,
+    }));
+}
+
+export async function getDistractors(id: number): Promise<Distractor[]> {
+    const { data, error } = await supabase.rpc('get_distractors', { 'target_id': id, 'target_limit': 3 });
+
+    if (error) {
+        console.error('Error fetching distractors:', error);
+        return [];
+    }
+
+    return (data as any[] ?? []).map((distractor) => ({
+        id: distractor.id,
+        content: distractor.content,
+    }));
 }

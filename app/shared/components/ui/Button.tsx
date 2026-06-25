@@ -1,33 +1,26 @@
 
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariants = 'primary' | 'text';
+type ButtonVariants = 'text';
 
-type LinkButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: ButtonVariants;
     icon?: React.ReactNode;
 };
 
-export default function Button({ className = "", children, variant, icon, ...props }: LinkButtonProps) {
-    let variantClasses = '';
+export default function Button({ className = "", children, variant, icon, ...props }: ButtonProps) {
+    const variantClasses =
+        variant === 'text'
+            ? 'border-none'
+            : 'rounded-md';
 
-    switch (variant) {
-        case 'primary':
-            variantClasses = 'bg-primary text-white hover:brightness-90';
-            break;
-        case 'text':
-            variantClasses = 'border-none';
-            break;
-        default:
-            variantClasses = 'rounded-md font-semibold transition-all active:scale-95 shadow-sm';
-    }
-
-    if (icon) {
-        className += ' inline-flex items-center';
-    }
+    const iconClasses =
+        icon
+            ? 'inline-flex items-center'
+            : '';
 
     return (
-        <button {...props} className={`${className} ${variantClasses}`}>
+        <button {...props} className={`${className} ${variantClasses} ${iconClasses}`}>
             {icon && <span className="mr-2 inline-flex">{icon}</span>}
             {children}
         </button>

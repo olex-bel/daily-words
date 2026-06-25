@@ -1,11 +1,11 @@
 
-type PorgressBarProps = {
+type ProgressBarProps = {
     className?: string;
     value: number;
     max: number;
 };
 
-export default function PorgressBar({ value, max, className='' }: PorgressBarProps) {
+export default function ProgressBar({ value, max, className='' }: ProgressBarProps) {
     const progressPercentage = (value / max) * 100;
     const barColor = `hsl(${100 + progressPercentage * 0.4}, 70%, 50%)`;
 

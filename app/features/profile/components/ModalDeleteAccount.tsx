@@ -26,7 +26,7 @@ export default function ModalDeleteAccount({ ref }: ModalDeleteAccountProps) {
                         value="delete-account"
                         disabled={isSubmitting}
                         className="
-                            bg-surface hover:bg-surface-hover disabled:bg-disabled shadow-md shadow-line 
+                            bg-surface hover:bg-surface-hover disabled:bg-disabled shadow-md shadow-line font-semibold
                             border-1 border-error text-error-dark transition-all active:scale-95 px-4 py-2
                             outline-none focus-visible:ring-2 focus-visible:ring-error focus-visible:ring-offset-2
                         "

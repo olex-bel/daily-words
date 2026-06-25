@@ -24,8 +24,8 @@ export default function ReviewSummary({ total, onExit }: ReviewSummaryProps) {
                 <p className="text-ink-muted">
                     {t('review.completedMessage', { count: total })}
                 </p>
-                <Button onClick={onExit} className="w-full py-4 border border-line hover:bg-line/20">
-                    {t('learning.summary.exitButton')}
+                <Button onClick={onExit} className="w-full py-4 border border-line hover:bg-line/20 font-semibold">
+                    {t('summary.exitButton')}
                 </Button>
             </Surface>
         </ViewCenter>

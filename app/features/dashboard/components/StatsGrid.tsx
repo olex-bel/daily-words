@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import StatCard from "./StatCard";
-import PorgressBar from "~/shared/components/ui/ProgressBar";
+import ProgressBar from "~/shared/components/ui/ProgressBar";
 import { RiLineChartLine, RiTrophyLine } from "react-icons/ri";
 import type { DashboardStats } from "../services/statsService";
 
@@ -30,7 +30,7 @@ export default function StatsGrid({ stats }: StatsGridProps) {
                 value={currentLevel} 
                 icon={<RiLineChartLine className="text-2xl opacity-50" />} 
             >
-                <PorgressBar value={progressInLevel} max={100} />
+                <ProgressBar value={progressInLevel} max={100} />
 
                 <span className="text-tiny ink-muted">
                     {pointsToNext} {t('dashboard.status.toNextLevel')}

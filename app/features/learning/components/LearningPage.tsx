@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 import { useEntryRating } from "../hooks/useEntryRating";
 import LearningSession from "./LearningSession";
-import PorgressBar from "~/shared/components/ui/ProgressBar";
+import ProgressBar from "~/shared/components/ui/ProgressBar";
+import SummarySkeleton from "~/shared/components/ui/SummarySkeleton";
 import Toast from "~/shared/components/ui/Toast";
 import type { LearningState, LearningAction, Answer } from "~/features/learning/types";
 import type { Entry } from "~/services/entryService";
 
-const LearningSummary = lazy(() => import('./SessionSummary'));
+const LearningSummary = lazy(() => import('./LearningSummary'));
 const ReviweSummary = lazy(() => import('./ReviewSummary'));
 
 type LearningPageProps = {
@@ -69,7 +70,7 @@ export default function LearningPage({ words, mode }: LearningPageProps) {
             <div className="flex items-center justify-between p-2 md:p-4">
                 <Link to="/dashboard" className="no-underline hover:underline">← {t('learning.finishButton')}</Link>
                 <div className="flex items-center gap-4">
-                    <PorgressBar value={state.currentIndex + 1} max={total} className="w-24 md:w-40" />
+                    <ProgressBar value={state.currentIndex + 1} max={total} className="w-24 md:w-40" />
                     {state.completed? (
                         <span className="text-green-600 flex items-center gap-1">
                             {total} / {total}
@@ -90,7 +91,7 @@ export default function LearningPage({ words, mode }: LearningPageProps) {
                         onAnswer={handleAnswer}
                     />
                 ) : (
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<SummarySkeleton />}>
                         {mode === 'learn' ? (
                             <LearningSummary
                                 total={total}

@@ -3,20 +3,16 @@ import { RiRefreshLine, RiBookShelfLine, RiTrophyLine } from "react-icons/ri";
 import Button from "~/shared/components/ui/Button";
 import ViewCenter from "~/shared/components/layout/ViewCenter";
 import Surface from "~/shared/components/ui/Surface";
-import StatBox from "./StatBox";
+import type { ReactNode } from "react";
 
 type SessionSummaryProps = {
     total: number;
-    results: {
-        know: number;
-        hard: number;
-        unknown: number;
-    };
     onRepeat: () => void;
     onExit: () => void;
+    children: ReactNode;
 }
 
-export default function SessionSummary({ total, results, onRepeat, onExit }: SessionSummaryProps) {
+export default function SessionSummary({ total, onRepeat, onExit, children }: SessionSummaryProps) {
     const { t } = useTranslation();
 
     return (
@@ -29,20 +25,18 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
                         </div>
                     </div>
                     <h2 className="text-3xl font-bold tracking-tight uppercase">
-                        {t('learning.summary.title')}
+                        {t('summary.title')}
                     </h2>
-                    <p className="text-ink-muted font-medium">{t('learning.summary.message')}</p>
+                    <p className="text-ink-muted font-medium">{t('summary.message')}</p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 w-full">
-                    <StatBox label={t('learning.summary.know')} value={results.know} color="bg-success" textColor="text-success-dark" />
-                    <StatBox label={t('learning.summary.hard')} value={results.hard} color="bg-warning" textColor="text-warning-dark" />
-                    <StatBox label={t('learning.summary.dontKnow')} value={results.unknown} color="bg-error" textColor="text-error-dark" />
+                <div className="w-full">
+                    {children}
                 </div>
 
                 <div className="w-full pt-2">
                    <p className="text-center text-sm text-ink-muted font-bold mb-4 uppercase tracking-widest">
-                      {t('learning.summary.totalCards', { total })}
+                      {t('summary.totalCards', { total })}
                    </p>
                 </div>
 
@@ -56,7 +50,7 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
                         "
                     >
                         <RiRefreshLine className="text-xl" />
-                        {t('learning.summary.repeatButton')}
+                        {t('summary.repeatButton')}
                     </Button>
 
                     <Button
@@ -68,7 +62,7 @@ export default function SessionSummary({ total, results, onRepeat, onExit }: Ses
                         "
                     >
                         <RiBookShelfLine className="text-xl" />
-                        {t('learning.summary.exitButton')}
+                        {t('summary.exitButton')}
                     </Button>
                 </div>
             </Surface>
