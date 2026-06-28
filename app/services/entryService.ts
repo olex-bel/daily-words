@@ -83,7 +83,7 @@ export type Distractor = {
 export type ReviewRating = 'unknown' | 'hard' | 'know';
 
 export async function getDailyEntries(number_of_words: number) {
-    const { data, error } = await supabase.rpc('get_daily_entries', { 'target_limit': number_of_words });
+    const { data, error } = await supabase.rpc('get_daily_entries', { 'p_target_limit': number_of_words });
 
     if (error) {
         throw new Error(error.message);
@@ -150,7 +150,7 @@ export async function getWordsForQuiz(): Promise<QuizEntry[]> {
 }
 
 export async function getDistractors(id: number): Promise<Distractor[]> {
-    const { data, error } = await supabase.rpc('get_distractors', { 'target_id': id, 'target_limit': 3 });
+    const { data, error } = await supabase.rpc('get_distractors', { 'p_target_id': id, 'p_target_limit': 3 });
 
     if (error) {
         console.error('Error fetching distractors:', error);

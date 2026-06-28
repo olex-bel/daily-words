@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { MAX_DAILY_ENTRIES } from "~/services/entryService";
 import type { DashboardStats } from "../services/statsService";
 import type { ReviewStatus } from "../utils/review";
@@ -10,18 +10,48 @@ type ReviewMessageProps = {
 
 
 export default function ReviewMessage({ status, stats }: ReviewMessageProps) {
-    const { t } = useTranslation();
-
     switch (status) {
         case 'CONTINUE':
-            return <>{t('dashboard.reviewStatus.CONTINUE.1')} <strong>{t('dashboard.reviewStatus.CONTINUE.2')}</strong>.</>;
+            return (
+                <Trans 
+                    i18nKey="dashboard.reviewStatus.CONTINUE" 
+                    components={{ primary: <strong className="text-primary-dark" /> }}
+                />  
+            );
         case 'COMPLETED_TODAY':
-            return <>{t('dashboard.reviewStatus.COMPLETED_TODAY.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.COMPLETED_TODAY.2')}</strong>.</>;
+            return (
+                <Trans 
+                    i18nKey="dashboard.reviewStatus.COMPLETED_TODAY" 
+                    components={{ primary: <strong className="text-primary-dark" /> }}
+                />  
+            );            
         case 'REVIEW_ONLY':
-            return <>{t('dashboard.reviewStatus.REVIEW_ONLY.1')} <strong>{t('dashboard.reviewStatus.REVIEW_ONLY.2', { total: Math.min(stats.remaining_words, MAX_DAILY_ENTRIES) })}</strong>.</>;
+            return (
+                <Trans 
+                    i18nKey="dashboard.reviewStatus.REVIEW_ONLY" 
+                    components={{ primary: <strong className="text-primary-dark" /> }}
+                    values={{ total: Math.min(stats.remaining_words, MAX_DAILY_ENTRIES)}}
+                />  
+            );
         case 'START_NEW':
-            return <>{t('dashboard.reviewStatus.START_NEW.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.START_NEW.2')}</strong>.</>;
+            return (
+                <Trans 
+                    i18nKey="dashboard.reviewStatus.START_NEW" 
+                    components={{ primary: <strong className="text-primary-dark" /> }}
+                />  
+            );
+        case 'NOTHING_REVIEW':
+            return (
+                <Trans 
+                    i18nKey="dashboard.reviewStatus.NOTHING_REVIEW" 
+                    components={{ primary: <strong className="text-primary-dark" /> }}
+                />);
         default:
-            return <>{t('dashboard.reviewStatus.ALL_LEARNED.1')} <strong className="text-primary-dark">{t('dashboard.reviewStatus.ALL_LEARNED.2')}</strong>!</>;
+            return (
+                <Trans 
+                    i18nKey="dashboard.reviewStatus.ALL_LEARNED" 
+                    components={{ primary: <strong className="text-primary-dark" /> }}
+                />
+            );
     }
 };

@@ -1,7 +1,8 @@
 
-CREATE OR REPLACE FUNCTION prepare_daily_entries(target_limit INT, v_timezone text DEFAULT 'UTC')
+CREATE OR REPLACE FUNCTION prepare_daily_entries(p_target_limit INT, p_v_timezone text DEFAULT 'UTC')
 RETURNS VOID
 LANGUAGE plpgsql
+SECURITY definer SET search_path = ''
 AS $$
 DECLARE
   current_user_id uuid := auth.uid();
@@ -16,10 +17,10 @@ BEGIN
               HINT = 'Check if your Supabase client has a valid session.';
   END IF;
 
-  v_today := (CURRENT_TIMESTAMP AT TIME ZONE v_timezone)::date;
+  v_today := (CURRENT_TIMESTAMP AT TIME ZONE p_v_timezone)::date;
 
-  IF target_limit > 10 OR target_limit < 3 THEN
-    RAISE 'target_limit values are outside the range --> %', target_limit
+  IF p_target_limit > 10 OR p_target_limit < 3 THEN
+    RAISE 'target_limit values are outside the range --> %', p_target_limit
       USING HINT = 'Please pass the value between 3 and 10';
   END IF;
 
@@ -34,7 +35,7 @@ BEGIN
   SELECT count(*) INTO words_count FROM public.user_entries
   WHERE user_id = current_user_id AND due_at <= v_today;
 
-  needed_count = GREATEST(0, target_limit - words_count);
+  needed_count = GREATEST(0, p_target_limit - words_count);
 
   IF needed_count > 0 THEN
     INSERT INTO public.user_entries (user_id, entry_id, due_at)
@@ -52,7 +53,7 @@ BEGIN
     SELECT entry_id FROM public.user_entries
     WHERE user_id = current_user_id AND due_at <= v_today
     ORDER BY due_at ASC, stage ASC
-    LIMIT target_limit
+    LIMIT p_target_limit
   )
   UPDATE public.user_entries ue SET session_date = v_today
     FROM max_entries AS me
@@ -61,7 +62,7 @@ END;
 $$;
 
 
-CREATE OR REPLACE FUNCTION get_daily_entries(target_limit INT)
+CREATE OR REPLACE FUNCTION public.get_daily_entries(p_target_limit INT)
 RETURNS TABLE (
   id bigint,
   content text,
@@ -74,6 +75,7 @@ RETURNS TABLE (
   audio_path text
 )
 LANGUAGE plpgsql
+SECURITY definer SET search_path = ''
 AS $$
 DECLARE
   v_timezone text;
@@ -82,7 +84,7 @@ BEGIN
   SELECT COALESCE(p.timezone, 'UTC') INTO v_timezone FROM public.profiles p
   WHERE p.user_id = auth.uid();
 
-  PERFORM prepare_daily_entries(target_limit, v_timezone);
+  PERFORM prepare_daily_entries(p_target_limit, v_timezone);
 
   v_today := (CURRENT_TIMESTAMP AT TIME ZONE v_timezone)::date;
 
@@ -103,25 +105,29 @@ BEGIN
       LEFT JOIN LATERAL (
           SELECT sub.text
           FROM (
-              SELECT text, 
-                    (row_number() OVER (ORDER BY exm.id) - 1) as row_idx,
-                    count(*) OVER () as total_count
+              SELECT exm.text,
+                    (row_number() OVER (ORDER BY exm.id) - 1) as row_idx
               FROM public.examples exm
-              WHERE entry_id = e.id
+              WHERE exm.entry_id = e.id
           ) sub
-          WHERE sub.total_count > 0 AND sub.row_idx = (ue.review_count % sub.total_count)
+          WHERE sub.row_idx = (
+              ue.review_count % COALESCE(
+                  NULLIF((SELECT count(*) FROM public.examples WHERE entry_id = e.id), 0), 
+                  1
+              )
+          )
           LIMIT 1
       ) ex ON true
     WHERE ue.user_id = auth.uid() 
           AND ue.session_date = v_today
           AND ue.due_at <= v_today
           AND e.published = true
-    LIMIT target_limit;
+    LIMIT p_target_limit;
 END;
 $$;
 
 
-CREATE OR REPLACE FUNCTION get_difficult_entries()
+CREATE OR REPLACE FUNCTION public.get_difficult_entries()
 RETURNS TABLE (
   id bigint,
   content text,
@@ -134,6 +140,7 @@ RETURNS TABLE (
   audio_path text
 )
 LANGUAGE plpgsql
+SECURITY definer SET search_path = ''
 AS $$
 BEGIN 
   RETURN QUERY
@@ -153,13 +160,17 @@ BEGIN
       LEFT JOIN LATERAL (
           SELECT sub.text
           FROM (
-              SELECT text, 
-                    (row_number() OVER (ORDER BY exm.id) - 1) as row_idx,
-                    count(*) OVER () as total_count
+              SELECT exm.text,
+                    (row_number() OVER (ORDER BY exm.id) - 1) as row_idx
               FROM public.examples exm
-              WHERE entry_id = e.id
+              WHERE exm.entry_id = e.id
           ) sub
-          WHERE sub.row_idx = (ue.review_count % sub.total_count)
+          WHERE sub.row_idx = (
+              ue.review_count % COALESCE(
+                  NULLIF((SELECT count(*) FROM public.examples WHERE entry_id = e.id), 0), 
+                  1
+              )
+          )
           LIMIT 1
       ) ex ON true
     WHERE ue.user_id = auth.uid() AND ue.stage < 3
@@ -287,7 +298,7 @@ AS $$
 BEGIN 
   IF target_limit > 3 OR target_limit < 1 THEN
     RAISE 'target_limit values are outside the range --> %', target_limit
-      USING HINT = 'Please pass the value between 1 and 5';
+      USING HINT = 'Please pass the value between 1 and 3';
   END IF;
 
   RETURN QUERY
@@ -342,7 +353,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION get_words_for_quiz()
+CREATE OR REPLACE FUNCTION public.get_words_for_quiz()
 RETURNS TABLE (
   id bigint,
   content text,
@@ -361,8 +372,8 @@ BEGIN
   RETURN QUERY 
     WITH entries_to_check AS (
       SELECT entry_id FROM user_entries 
-      WHERE user_id = current_user_id
-      ORDER BY session_date ASC
+      WHERE user_id = current_user_id and stage >= 5
+      ORDER BY last_quiz_at NULLS FIRST
       LIMIT 5
     )
     SELECT ec.entry_id, e.content, t.meanings FROM entries_to_check ec
@@ -371,40 +382,79 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION get_distractors(target_id bigint, target_limit INT)
+CREATE OR REPLACE FUNCTION public.get_distractors(
+  p_target_id bigint, 
+  p_target_limit INT
+)
 RETURNS TABLE (
   id bigint, 
   content text
-) LANGUAGE plpgsql AS $$
+) 
+LANGUAGE plpgsql 
+SECURITY definer SET search_path = ''
+AS $$
 DECLARE
   target_pos text;
   target_type public.entry_type;
+  v_same_type_count int;
+  v_other_type_count int;
+  v_offset int;
 BEGIN
-
-  IF target_limit > 10 OR target_limit < 3 THEN
-    RAISE 'target_limit values are outside the range --> %', target_limit
+  IF p_target_limit > 10 OR p_target_limit < 3 THEN
+    RAISE 'target_limit values are outside the range --> %', p_target_limit
       USING HINT = 'Please pass the value between 3 and 10';
   END IF;
   
   SELECT e.grammar->>'pos', e.type INTO target_pos, target_type
-  FROM entries e WHERE e.id = target_id;
+  FROM public.entries e WHERE e.id = p_target_id;
+
+  SELECT count(*) INTO v_same_type_count FROM public.entries e
+  WHERE e.grammar->>'pos' = target_pos AND e.id != p_target_id;
+
+  SELECT count(*) INTO v_other_type_count FROM public.entries e
+  WHERE e.type = target_type AND e.id != p_target_id;
 
   RETURN QUERY
     WITH same_type AS (
-      SELECT e.id, e.content FROM entries e
-      WHERE e.grammar->>'pos' = target_pos AND e.id != target_id
-      ORDER BY RANDOM()
-      LIMIT target_limit
+      SELECT e.id, e.content FROM public.entries e
+      WHERE e.grammar->>'pos' = target_pos AND e.id != p_target_id
+      OFFSET GREATEST(0, floor(random() * (coalesce(v_same_type_count, 0) - p_target_limit + 1))::int)
+      LIMIT p_target_limit
     ),
     other_type AS (
-      SELECT e.id, e.content FROM entries e
-      WHERE e.type = target_type AND e.id != target_id AND e.id NOT IN (SELECT st.id FROM same_type st)
-      ORDER BY RANDOM()
+      SELECT e.id, e.content FROM public.entries e
+      WHERE e.type = target_type AND e.id != p_target_id 
+        AND e.id NOT IN (SELECT st.id FROM same_type st)
+      OFFSET GREATEST(0, floor(random() * (coalesce(v_other_type_count, 0) - 3 + 1))::int)
       LIMIT 3
     )
     SELECT st.id, st.content FROM same_type st
     UNION ALL
     SELECT ot.id, ot.content FROM other_type ot
-    LIMIT target_limit;
+    LIMIT p_target_limit;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.update_quiz_result(
+  p_entry_id bigint,
+  p_is_correct boolean
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY definer SET search_path = ''
+AS $$
+BEGIN
+  UPDATE user_entries
+  SET
+    last_quiz_at = now(),
+    stage = CASE
+      WHEN p_is_correct THEN stage
+      ELSE 0
+    END,
+    due_at = CASE
+      WHEN p_is_correct THEN due_at
+      ELSE CURRENT_DATE + 1
+    END
+  WHERE user_id = auth.uid() AND entry_id = p_entry_id;
 END;
 $$;

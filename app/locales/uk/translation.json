@@ -109,16 +109,12 @@
         "startLearning": "Почати навчання",
         "startReview": "Переглянути складні слова",
         "reviewStatus": {
-            "CONTINUE.1": "У Вас ще лишились слова.",
-            "CONTINUE.2": "Продовжуйте навчання",
-            "COMPLETED_TODAY.1": "Ви виконали план на сьогодні!",
-            "COMPLETED_TODAY.2": "Повертайтесь завтра",
-            "REVIEW_ONLY.1": "Сьогодні закріпимо пройдене: ",
-            "REVIEW_ONLY.2": "{{total}} слів",
-            "START_NEW.1": "Розпочніть навчання, щоб ",
-            "START_NEW.2": "додати нові слова",
-            "ALL_LEARNED.1": "Вітаю, Ви ",
-            "ALL_LEARNED.2": "вивчили всі слова"
+            "CONTINUE": "У Вас ще лишились слова. <primary>Продовжуйте навчання</primary>",
+            "COMPLETED_TODAY": "Ви виконали план на сьогодні! <primary>Повертайтесь завтра</primary>",
+            "REVIEW_ONLY": "Сьогодні закріпимо пройдене: <primary>{{total}} слів</primary>",
+            "START_NEW": "Розпочніть навчання, щоб <primary>додати нові слова</primary>",
+            "ALL_LEARNED": "Вітаю, Ви <primary>вивчили всі слова</primary>",
+            "NOTHING_REVIEW": "На сьогодні повторень немає. <primary>Зробіть перерву</primary> — нові картки з'являться автоматично за графіком"
         }
     },
     "review": {

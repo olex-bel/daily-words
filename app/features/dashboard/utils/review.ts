@@ -1,11 +1,11 @@
 import { MAX_DAILY_ENTRIES } from "~/services/entryService";
 import type { DashboardStats } from "../services/statsService";
 
-export type ReviewStatus = 'CONTINUE' | 'COMPLETED_TODAY' | 'REVIEW_ONLY' | 'START_NEW' | 'ALL_LEARNED';
+export type ReviewStatus = 'CONTINUE' | 'COMPLETED_TODAY' | 'REVIEW_ONLY' | 'START_NEW' | 'ALL_LEARNED' | 'NOTHING_REVIEW';
 
 export function  getReviewStatus(stats: DashboardStats): ReviewStatus 
 {
-    const { remaining_words, total_system_words, user_total_words, session_started } = stats;
+    const { remaining_words, total_system_words, user_total_words, session_started, in_learning } = stats;
 
     if (session_started) {
         if (remaining_words > 0) {
@@ -31,5 +31,9 @@ export function  getReviewStatus(stats: DashboardStats): ReviewStatus
         return 'START_NEW';
     }
     
+    if (in_learning > 0) {
+        return 'NOTHING_REVIEW';
+    }
+
     return 'ALL_LEARNED';
 };
