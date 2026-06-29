@@ -15,12 +15,12 @@ type QuizFrontProps = {
 export default function QuizFront({ question, options, onOptionSelect }: QuizFrontProps) {
     const { t } = useTranslation();
     return (
-        <div className="h-full flex flex-col backface-hidden p-4 rotate-x-0 shadow-md hover:shadow-xl overflow-hidden">
-            <div className="first-letter:uppercase text-primary-dark text-center font-bold mt-4">
+        <div className="h-full flex flex-col backface-hidden py-2 px-4 rotate-x-0 shadow-md hover:shadow-xl overflow-hidden">
+            <div className="first-letter:uppercase text-primary-dark text-center font-bold mb-2">
                 {question}
             </div>
             <div className="flex-grow flex items-center">
-                <div role="radiogroup" aria-label={t('quiz.anwsersLabel')} className="w-full mx-5 flex flex-col gap-2">
+                <div role="radiogroup" aria-label={t('quiz.anwsersLabel')} className="w-full mx-5 flex flex-col gap-2 overflow-y-auto">
                     {
                         options.map((option, index) => {
                             const letter = String.fromCharCode(65 + index);
