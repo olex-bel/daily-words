@@ -8,6 +8,6 @@ export default {
     v8_middleware: true,
   },
   async prerender() {
-    return ['/', '/dashboard', '/learning', '/signin', '/profile', '/review'];
+    return ['/', '/dashboard', '/learning', '/signin', '/profile', '/review', '/quiz'];
   },
 } satisfies Config;
