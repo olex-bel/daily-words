@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import Surface from "~/shared/components/ui/Surface";
 import LinkButton from "~/shared/components/ui/LinkButton";
 import ReviewMessage from "./ReviewMessage";
+import PracticeActions from "./PracticeActions";
 import StatusIcon from "./StatusIcon";
 import { getReviewStatus } from "../utils/review";
 import type { DashboardStats } from "../services/statsService";
@@ -13,8 +14,9 @@ type SmartReviewProps = {
 export default function SmartReview({ stats }: SmartReviewProps) {
     const { t } = useTranslation();
     const status = getReviewStatus(stats);
-    const isLearningAllowed = status !== 'COMPLETED_TODAY' && status !== 'ALL_LEARNED';
-
+    const isLearningAllowed = status !== 'COMPLETED_TODAY' && status !== 'ALL_LEARNED' && status !== 'NOTHING_REVIEW';
+    const showPracticeActions = status === 'COMPLETED_TODAY' || status === 'NOTHING_REVIEW' || status === 'ALL_LEARNED';
+    
     return (
         <Surface className="relative overflow-hidden bg-surface text-ink p-8 group">
             <div className="relative z-10">
@@ -36,17 +38,8 @@ export default function SmartReview({ stats }: SmartReviewProps) {
                         {t('dashboard.startLearning')}
                     </LinkButton>
                 ) : (
-                    <LinkButton 
-                        to="/review" 
-                        className="
-                            bg-primary text-primary-ink px-8 py-4 rounded-2xl shadow-md active:scale-95 transition-all
-                            outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
-                        "
-                    >
-                        {t('dashboard.startReview')}
-                    </LinkButton>
-                )
-                }
+                    showPracticeActions && <PracticeActions stats={stats} />
+                )}
             </div>
         </Surface>
     );

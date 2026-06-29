@@ -107,7 +107,9 @@
         "noWordsMessage": "Ви виконали план на сьогодні! Нові слова з'являться зовсім скоро.",
         "reviewTitle": "На сьогодні",
         "startLearning": "Почати навчання",
-        "startReview": "Переглянути складні слова",
+        "startReview": "Cкладні слова",
+        "or": "або",
+        "startQuiz": "Перевірити знання",
         "reviewStatus": {
             "CONTINUE": "У Вас ще лишились слова. <primary>Продовжуйте навчання</primary>",
             "COMPLETED_TODAY": "Ви виконали план на сьогодні! <primary>Повертайтесь завтра</primary>",

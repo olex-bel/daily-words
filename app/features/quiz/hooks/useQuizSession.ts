@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { getDistractors, updateCardReview } from "~/services/entryService";
+import { getDistractors, updateQuizResult } from "~/services/entryService";
 import type { QuizEntry, Distractor } from "~/services/entryService";
 
 export function useQuizSession(firstQuestionDistractors: Distractor[]) {
@@ -20,9 +20,7 @@ export function useQuizSession(firstQuestionDistractors: Distractor[]) {
         setIsLoading(true);
 
         try {
-            if (!isCorrect) {
-                // updateCardReview(currentWord.id, 'unknown');
-            }
+            updateQuizResult(currentWord.id, isCorrect);
 
             if (nextWord) {
                 const nextDistractors = await getDistractors(nextWord.id);

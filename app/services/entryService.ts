@@ -162,3 +162,12 @@ export async function getDistractors(id: number): Promise<Distractor[]> {
         content: distractor.content,
     }));
 }
+
+export async function updateQuizResult(id: number, isCorrect: boolean) {
+    const { error } = await supabase.rpc('update_quiz_result', { 'p_entry_id': id, 'p_is_correct': isCorrect });
+
+    if (error) {
+        console.error('Error update entre rating:', error);
+        throw error;
+    }
+}

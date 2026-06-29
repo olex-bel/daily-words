@@ -2,7 +2,7 @@
 CREATE OR REPLACE FUNCTION prepare_daily_entries(p_target_limit INT, p_v_timezone text DEFAULT 'UTC')
 RETURNS VOID
 LANGUAGE plpgsql
-SECURITY definer SET search_path = ''
+SET search_path = ''
 AS $$
 DECLARE
   current_user_id uuid := auth.uid();
@@ -75,7 +75,7 @@ RETURNS TABLE (
   audio_path text
 )
 LANGUAGE plpgsql
-SECURITY definer SET search_path = ''
+SET search_path = ''
 AS $$
 DECLARE
   v_timezone text;
@@ -84,7 +84,7 @@ BEGIN
   SELECT COALESCE(p.timezone, 'UTC') INTO v_timezone FROM public.profiles p
   WHERE p.user_id = auth.uid();
 
-  PERFORM prepare_daily_entries(p_target_limit, v_timezone);
+  PERFORM public.prepare_daily_entries(p_target_limit, v_timezone);
 
   v_today := (CURRENT_TIMESTAMP AT TIME ZONE v_timezone)::date;
 
@@ -140,7 +140,7 @@ RETURNS TABLE (
   audio_path text
 )
 LANGUAGE plpgsql
-SECURITY definer SET search_path = ''
+SET search_path = ''
 AS $$
 BEGIN 
   RETURN QUERY
@@ -173,7 +173,7 @@ BEGIN
           )
           LIMIT 1
       ) ex ON true
-    WHERE ue.user_id = auth.uid() AND ue.stage < 3
+    WHERE ue.user_id = auth.uid() AND ue.stage < 5
     ORDER BY ue.created_at DESC
     LIMIT 10;
 END;
@@ -185,6 +185,7 @@ CREATE OR REPLACE FUNCTION update_card_review(
 ) 
 RETURNS VOID
 LANGUAGE plpgsql
+SET search_path = ''
 AS $$
 DECLARE
   v_stage smallint;
@@ -238,6 +239,7 @@ RETURNS TABLE (
     remaining_words bigint
 ) 
 LANGUAGE plpgsql
+SET search_path = ''
 AS $$
 DECLARE
     current_user_id uuid := auth.uid();
@@ -294,6 +296,7 @@ RETURNS TABLE (
   created_at date
 )
 LANGUAGE plpgsql
+SET search_path = ''
 AS $$
 BEGIN 
   IF target_limit > 3 OR target_limit < 1 THEN
@@ -317,6 +320,7 @@ $$;
 CREATE OR REPLACE FUNCTION validate_timezone()
 RETURNS TRIGGER
 LANGUAGE plpgsql
+SET search_path = ''
 AS $$
 BEGIN
     IF NEW.timezone IS NOT NULL AND NOT EXISTS (
@@ -358,7 +362,9 @@ RETURNS TABLE (
   id bigint,
   content text,
   meanings jsonb
-) LANGUAGE plpgsql
+) 
+LANGUAGE plpgsql
+SET search_path = ''
 AS $$
 DECLARE
   current_user_id uuid := auth.uid();
@@ -371,13 +377,13 @@ BEGIN
 
   RETURN QUERY 
     WITH entries_to_check AS (
-      SELECT entry_id FROM user_entries 
+      SELECT entry_id FROM public.user_entries 
       WHERE user_id = current_user_id and stage >= 5
       ORDER BY last_quiz_at NULLS FIRST
       LIMIT 5
     )
     SELECT ec.entry_id, e.content, t.meanings FROM entries_to_check ec
-    LEFT JOIN entries e ON ec.entry_id = e.id
+    LEFT JOIN public.entries e ON ec.entry_id = e.id
     LEFT JOIN public.translations t ON ec.entry_id = t.entry_id;
 END;
 $$;
@@ -391,7 +397,7 @@ RETURNS TABLE (
   content text
 ) 
 LANGUAGE plpgsql 
-SECURITY definer SET search_path = ''
+SET search_path = ''
 AS $$
 DECLARE
   target_pos text;
@@ -441,10 +447,10 @@ CREATE OR REPLACE FUNCTION public.update_quiz_result(
 )
 RETURNS void
 LANGUAGE plpgsql
-SECURITY definer SET search_path = ''
+SET search_path = ''
 AS $$
 BEGIN
-  UPDATE user_entries
+  UPDATE public.user_entries
   SET
     last_quiz_at = now(),
     stage = CASE
