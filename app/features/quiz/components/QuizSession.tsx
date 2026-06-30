@@ -21,6 +21,7 @@ export default function QuizSession({ isLoading, isLast, question, distractors, 
     const handleClick = () => {
         if (!isButtonDisabled) {
             onAnswerSubmit(selectedAnswerId);
+            setSelectedAnswerId(null);
         }
     }
     const handleAnswerSelect = (optionId: number) => {
@@ -35,10 +36,13 @@ export default function QuizSession({ isLoading, isLast, question, distractors, 
                     <Button 
                         onClick={handleClick} 
                         disabled={isLoading || !selectedAnswerId}
-                        className="w-full py-4 bg-primary font-semibold text-primary-ink 
-                        hover:bg-primary-hover transition-colors dark:border-2 dark:border-primary dark:bg-transparent 
-                        dark:text-primary dark:hover:bg-primary-hover dark:hover:text-primary-ink disabled:bg-disabled
-                        flex items-center justify-center gap-2"
+                        className="w-full py-4 bg-primary font-semibold text-primary-ink disabled:bg-disabled
+                            enabled:hover:bg-primary-hover transition-colors dark:border-2 
+                            
+                            dark:text-primary-ink dark:enabled:hover:bg-primary-hover dark:enabled:hover:text-primary-ink 
+                            dark:disabled:text-ink-muted dark:disabled:border-line
+
+                            flex items-center justify-center gap-2"
                     >
                         {isLoading && <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin shrink-0" />}
                         <span>{isLast? t('review.finishButton') : t('review.nextButton')}</span>

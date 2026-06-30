@@ -55,7 +55,7 @@ body {
     --color-surface: theme("colors.neutral.800");
     --color-surface-hover: theme("colors.neutral.700");
     --color-line: theme("colors.zinc.700");
-    --color-disabled: theme("colors.zinc.600");
+    --color-disabled: theme("colors.zinc.900");
     --color-primary: theme("colors.green.400");
     --color-primary-light: theme("colors.green.300");
     --color-primary-dark: theme("colors.green.500");
